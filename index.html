@@ -129,3 +129,116 @@
         <option value="橄欖科植物">🫒 橄欖科植物</option>
         <option value="雨林觀葉">🌿 雨林觀葉</option>
         <option value="塊根植物">🥔 塊根植物</option>
+             </select>
+    </div>
+    <div class="field"><label>澆水週期 (天)</label><input type="number" id="f-day" value="5" min="1" max="90" /></div>
+    <div class="field"><label>上傳實拍照片 或 貼上圖片網址</label>
+      <input type="file" id="f-file" accept="image/*" style="margin-bottom:6px" />
+      <input type="url" id="f-url" placeholder="https://..." />
+    </div>
+    <div class="field"><label>養護手札</label><textarea id="f-note" rows="2" placeholder="記錄光照、濕度與介質..."></textarea></div>
+    <button type="button" class="btn-primary" style="width:100%;height:42px;font-size:14px" data-cmd="save-plant">儲存至圖鑑</button>
+  </div>
+</div>
+
+<div id="m-set" class="modal">
+  <div class="modal-card">
+    <div class="modal-head"><h3>設定與備份</h3><button type="button" class="btn-icon" data-cmd="close-set">✕</button></div>
+    <div class="field"><label>Google Gemini API Key（選填）</label><input type="password" id="s-key" placeholder="AIzaSy..." /></div>
+    <button type="button" class="btn-primary" style="width:100%;margin-bottom:12px" data-cmd="save-key">儲存金鑰</button>
+    <div style="display:flex;gap:8px">
+      <button type="button" class="act-btn act-n" style="flex:1" data-cmd="export-json">⬇️ 匯出備份</button>
+      <button type="button" class="act-btn b-over" style="flex:1" data-cmd="reset-all">🔄 重置範例</button>
+    </div>
+  </div>
+</div>
+
+<script>
+var INIT_P = [
+  { id:'p1', name:'二叉鹿角蕨', latin:'Platycerium bifurcatum', cat:'附生鹿角蕨', day:5, last:Date.now()-5*864e5, img:'https://unsplash.com', note:'上板栽培，水苔變輕變乾時整板泡水15分鐘，保持通風。' },
+  { id:'p2', name:'女王鹿角蕨', latin:'Platycerium wandae', cat:'附生鹿角蕨', day:4, last:Date.now()-2*864e5, img:'https://unsplash.com', note:'大型附生種，喜歡溫暖高濕與明亮散射光，避免營養葉積水。' },
+  { id:'p3', name:'神聖乳香', latin:'Boswellia sacra', cat:'橄欖科植物', day:8, last:Date.now()-6*864e5, img:'https://unsplash.com', note:'橄欖科經典芳香樹脂樹種，高比例顆粒土與充足日照，冬季減水。' },
+  { id:'p4', name:'索馬利亞沒藥', latin:'Commiphora myrrha', cat:'橄欖科植物', day:9, last:Date.now()-4*864e5, img:'https://unsplash.com', note:'橄欖科旱生灌木，枝幹具獨特香氣；盆土乾透再澆透。' },
+  { id:'p5', name:'白錦龜背竹', latin:'Monstera Albo', cat:'雨林觀葉', day:4, last:Date.now()-4*864e5, img:'https://unsplash.com', note:'明亮散射光，空氣濕度維持60%以上，樹皮椰塊疏水介質。' },
+  { id:'p6', name:'象牙宮', latin:'Pachypodium gracilius', cat:'塊根植物', day:10, last:Date.now()-7*864e5, img:'https://unsplash.com', note:'全日照通風，生長期乾透澆透，冬季落葉休眠期嚴格斷水。' },
+  { id:'p7', name:'蘋果豬籠草', latin:'Nepenthes ampullaria', cat:'食蟲植物', day:2, last:Date.now()-2*864e5, img:'https://unsplash.com', note:'使用低TDS純水或雨水，水苔保持微濕不積水。' },
+  { id:'p8', name:'生石花', latin:'Lithops', cat:'沙漠多肉', day:14, last:Date.now()-10*864e5, img:'https://unsplash.com', note:'高比例顆粒土，春季蛻皮期完全不可澆水。' },
+  { id:'p9', name:'蝴蝶蘭', latin:'Phalaenopsis', cat:'蘭科植物', day:7, last:Date.now()-5*864e5, img:'https://unsplash.com', note:'氣生根由綠轉銀白色再澆水，避開葉心積水。' }
+];
+var INIT_L = [
+  { id:'l1', t:Date.now()-72e5, p:'二叉鹿角蕨', a:'💧 完成泡水補給', n:'水苔已吸飽水，狀態健康' },
+  { id:'l2', t:Date.now()-864e5, p:'神聖乳香', a:'📝 狀態觀察紀錄', n:'日照充足，新枝葉散發淡雅樹脂香氣' }
+];
+var P = JSON.parse(localStorage.getItem('bp_v2') || 'null') || INIT_P;
+var L = JSON.parse(localStorage.getItem('bl_v2') || 'null') || INIT_L;
+var curCat = '全部', tmpImg = '';
+
+function sync() {
+  try { localStorage.setItem('bp_v2', JSON.stringify(P)); localStorage.setItem('bl_v2', JSON.stringify(L)); } catch(e) {}
+  document.getElementById('st-total').textContent = P.length;
+  document.getElementById('st-due').textContent = P.filter(function(x){ return Math.ceil((x.last + x.day*864e5 - Date.now())/864e5) <= 0; }).length;
+}
+function toast(m) {
+  var t = document.getElementById('toast'); t.textContent = m; t.style.display = 'block';
+  setTimeout(function(){ t.style.display = 'none'; }, 2000);
+}
+function render() {
+  var cats = ['全部'];
+  P.forEach(function(x){ if(cats.indexOf(x.cat)===-1) cats.push(x.cat); });
+  document.getElementById('cats').innerHTML = cats.map(function(c){
+    return '<button type="button" class="cat-btn'+(curCat===c?' active':'')+'" data-cat="'+c+'">'+c+'</button>';
+  }).join('');
+  var q = document.getElementById('q').value.toLowerCase();
+  var list = P.filter(function(x){ return (curCat==='全部'||x.cat===curCat) && (x.name.toLowerCase().indexOf(q)!==-1 || (x.note||'').toLowerCase().indexOf(q)!==-1); });
+  var fb = 'https://unsplash.com';
+  document.getElementById('grid').innerHTML = list.map(function(x){
+    var left = Math.ceil((x.last + x.day*864e5 - Date.now())/864e5);
+    var b = left<0 ? '<span class="badge b-over">逾期 '+Math.abs(left)+' 天</span>' : left===0 ? '<span class="badge b-due">今日需補水</span>' : '<span class="badge b-ok">'+left+' 天後澆水</span>';
+    return '<div class="card"><div class="card-img-wrap"><img src="'+(x.img||fb)+'" onerror="this.src=\''+fb+'\'" /><div class="card-overlay"></div><span class="card-tag">'+x.cat+'</span><div class="card-tools"><button type="button" class="tool-btn" data-edit="'+x.id+'">✏️</button><button type="button" class="tool-btn" data-del="'+x.id+'">🗑️</button></div><div class="card-title"><h3>'+x.name+'</h3>'+(x.latin?'<p>'+x.latin+'</p>':'')+'</div></div><div class="card-body"><div class="card-meta"><span>每 '+x.day+' 天補水</span>'+b+'</div><p class="card-notes">'+(x.note||'尚無手札')+'</p><div class="card-actions"><button type="button" class="act-btn act-w" data-act="w" data-id="'+x.id+'">💧 澆水</button><button type="button" class="act-btn act-f" data-act="f" data-id="'+x.id+'">🧪 施肥</button><button type="button" class="act-btn act-n" data-act="n" data-id="'+x.id+'">📝 筆記</button></div></div></div>';
+  }).join('');
+  document.getElementById('logs').innerHTML = L.map(function(l){
+    var d = new Date(l.t), ts = (d.getMonth()+1)+'/'+d.getDate()+' '+('0'+d.getHours()).slice(-2)+':'+('0'+d.getMinutes()).slice(-2);
+    return '<div class="log-item"><div class="log-head"><span>'+l.p+'</span><span class="log-time">'+ts+'</span></div><div class="log-act">'+l.a+'</div>'+(l.n?'<div class="log-note">'+l.n+'</div>':'')+'</div>';
+  }).join('');
+  sync();
+}
+
+document.getElementById('q').addEventListener('input', render);
+document.getElementById('f-file').addEventListener('change', function(e){
+  var f = e.target.files && e.target.files.item(0); if(!f) return;
+  var r = new FileReader();
+  r.onload = function(ev){
+    var im = new Image();
+    im.onload = function(){
+      var c = document.createElement('canvas'), s = Math.min(1, 500/im.width);
+      c.width = im.width*s; c.height = im.height*s;
+      c.getContext('2d').drawImage(im,0,0,c.width,c.height);
+      tmpImg = c.toDataURL('image/jpeg',0.7);
+      toast('📸 照片已載入');
+    };
+    im.src = ev.target.result;
+  };
+  r.readAsDataURL(f);
+});
+
+document.addEventListener('click', function(e) {
+  var btn = e.target.closest('button');
+  if (!btn) return;
+  var cmd = btn.getAttribute('data-cmd');
+  if (cmd === 'open-set') { document.getElementById('s-key').value=localStorage.getItem('g_key')||''; document.getElementById('m-set').style.display='flex'; }
+  else if (cmd === 'close-set') { document.getElementById('m-set').style.display='none'; }
+  else if (cmd === 'open-add') { document.getElementById('m-title').textContent='收錄新植物'; document.getElementById('f-id').value=''; document.getElementById('f-name').value=''; document.getElementById('f-url').value=''; document.getElementById('f-note').value=''; tmpImg=''; document.getElementById('m-plant').style.display='flex'; }
+  else if (cmd === 'close-add') { document.getElementById('m-plant').style.display='none'; }
+  else if (cmd === 'tab-dex') { document.getElementById('sec-dex').style.display='block'; document.getElementById('sec-logs').style.display='none'; document.getElementById('nb-dex').className='nav-btn active'; document.getElementById('nb-logs').className='nav-btn'; }
+  else if (cmd === 'tab-logs') { document.getElementById('sec-dex').style.display='none'; document.getElementById('sec-logs').style.display='block'; document.getElementById('nb-logs').className='nav-btn active'; document.getElementById('nb-dex').className='nav-btn'; }
+  else if (cmd === 'toggle-ai') { var w=document.getElementById('ai-win'); w.style.display = w.style.display==='flex' ? 'none' : 'flex'; }
+  else if (cmd === 'save-key') { localStorage.setItem('g_key', document.getElementById('s-key').value.trim()); document.getElementById('m-set').style.display='none'; toast('🔑 已儲存'); }
+  else if (cmd === 'export-json') { var a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([JSON.stringify({P:P,L:L})],{type:'application/json'})); a.download='botanica.json'; a.click(); }
+  else if (cmd === 'reset-all') { if(confirm('確定重置為9株預設圖鑑？')){ localStorage.removeItem('bp_v2'); localStorage.removeItem('bl_v2'); location.reload(); } }
+  else if (cmd === 'save-plant') {
+    var name = document.getElementById('f-name').value.trim(); if(!name){ alert('請輸入植物名稱'); return; }
+    var id = document.getElementById('f-id').value, cat = document.getElementById('f-cat').value, day = parseInt(document.getElementById('f-day').value,10)||5;
+    var img = tmpImg || document.getElementById('f-url').value.trim() || 'https://unsplash.com';
+    var note = document.getElementById('f-note').value.trim();
+    if(id){ var x = P.find(function(i){ return i.id===id; }); if(x){ x.name=name; x.cat=cat; x.day=day; x.img=img; x.note=note; } toast('✅ 已更新'); }
+
