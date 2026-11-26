@@ -6,6 +6,58 @@
   <meta name="theme-color" content="#1B4332" />
   <title>植誌 BOTANICA・跨領域植物圖鑑</title>
   <link id="dynamic-manifest" rel="manifest" href="manifest.json" />
+  <script>
+    (function() {
+      try {
+        var c = document.createElement('canvas');
+        c.width = 512;
+        c.height = 512;
+        var ctx = c.getContext('2d');
+        ctx.fillStyle = '#ccff00';
+        ctx.fillRect(0, 0, 512, 512);
+        ctx.strokeStyle = '#111111';
+        ctx.lineWidth = 20;
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+        ctx.beginPath();
+        ctx.moveTo(210, 215);
+        ctx.bezierCurveTo(195, 130, 238, 120, 256, 195);
+        ctx.bezierCurveTo(274, 120, 317, 130, 302, 215);
+        ctx.bezierCurveTo(350, 225, 365, 295, 322, 338);
+        ctx.bezierCurveTo(280, 375, 195, 370, 172, 322);
+        ctx.bezierCurveTo(150, 275, 172, 225, 210, 215);
+        ctx.stroke();
+        ctx.fillStyle = '#111111';
+        ctx.beginPath();
+        ctx.arc(236, 276, 11, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.beginPath();
+        ctx.arc(276, 276, 11, 0, Math.PI * 2);
+        ctx.fill();
+
+        var pngUrl = c.toDataURL('image/png');
+        var iconLink = document.createElement('link');
+        iconLink.rel = 'apple-touch-icon';
+        iconLink.href = pngUrl;
+        document.head.appendChild(iconLink);
+
+        var manifestObj = {
+          name: "植誌 BOTANICA・跨領域植物圖鑑",
+          short_name: "植誌",
+          start_url: window.location.href,
+          display: "standalone",
+          background_color: "#F7F5F0",
+          theme_color: "#1B4332",
+          icons: [
+            { src: pngUrl, sizes: "192x192", type: "image/png" },
+            { src: pngUrl, sizes: "512x512", type: "image/png" }
+          ]
+        };
+        var blob = new Blob([JSON.stringify(manifestObj)], { type: 'application/manifest+json' });
+        document.getElementById('dynamic-manifest').href = URL.createObjectURL(blob);
+      } catch (e) {}
+    })();
+  </script>
   <script src="https://tailwindcss.com"></script>
   <style>
     @import url('https://googleapis.com');
@@ -140,30 +192,3 @@
           <div>
             <label class="block font-bold text-[#4A4E4B] mb-1">所屬領域 *</label>
             <select id="plant-category" class="w-full bg-[#F7F5F0] border border-[#E2DDD2] rounded-xl px-3 py-2.5 text-sm">
-              <option value="附生鹿角蕨">🦌 附生鹿角蕨</option>
-              <option value="橄欖科植物">🫒 橄欖科植物</option>
-              <option value="塊根植物">🥔 塊根植物</option>
-              <option value="雨林觀葉">🌿 雨林觀葉</option>
-              <option value="食蟲植物">🪤 食蟲植物</option>
-              <option value="沙漠多肉">🌵 沙漠多肉</option>
-              <option value="蘭科植物">🌸 蘭科植物</option>
-            </select>
-          </div>
-          <div>
-            <label class="block font-bold text-[#4A4E4B] mb-1">澆水週期 (天) *</label>
-            <input type="number" id="plant-interval" min="1" max="90" value="5" class="w-full bg-[#F7F5F0] border border-[#E2DDD2] rounded-xl px-3.5 py-2.5 text-sm" />
-          </div>
-        </div>
-        <div>
-          <label class="block font-bold text-[#4A4E4B] mb-1">實拍照片（選填，不選會自動配植物圖）</label>
-          <div class="space-y-2 bg-[#F7F5F0] p-3 rounded-2xl border border-[#E2DDD2]">
-            <input type="file" id="plant-file" accept="image/*" onchange="handleImageUpload(event)" class="block w-full text-xs text-gray-600" />
-            <input type="url" id="plant-image-url" placeholder="或貼上真實植物圖片網址 https://..." oninput="previewImageUrl()" class="w-full bg-white border border-[#E2DDD2] rounded-xl px-3 py-2 text-xs" />
-            <img id="image-preview" src="" alt="預覽圖" style="display: none;" class="w-full h-40 object-cover rounded-xl mt-2" />
-          </div>
-        </div>
-        <div>
-          <label class="block font-bold text-[#4A4E4B] mb-1">養護手札與介質筆記</label>
-          <textarea id="plant-notes" rows="2" placeholder="記錄光照需求、濕度或介質比例..." class="w-full bg-[#F7F5F0] border border-[#E2DDD2] rounded-xl px-3.5 py-2.5 text-sm"></textarea>
-        </div>
-        <button type="button" onclick="savePlant()" class="w-full py-3.5 rounded-full bg-[#1B4332] text-white font-bold text-sm shadow-md active:scale-95 transition">儲存至我的圖鑑</button>
