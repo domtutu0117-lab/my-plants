@@ -10,13 +10,13 @@
   "orientation": "portrait",
   "icons": [
     {
-      "src": "https://github.io1000012835.png",
+      "src": "https://dummyimage.com",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "https://github.io1000012835.png",
+      "src": "https://dummyimage.com",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any"
