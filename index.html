@@ -1,194 +1,131 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <meta name="theme-color" content="#1B4332" />
-  <title>植誌 BOTANICA・跨領域植物圖鑑</title>
-  <link id="dynamic-manifest" rel="manifest" href="manifest.json" />
-  <script>
-    (function() {
-      try {
-        var c = document.createElement('canvas');
-        c.width = 512;
-        c.height = 512;
-        var ctx = c.getContext('2d');
-        ctx.fillStyle = '#ccff00';
-        ctx.fillRect(0, 0, 512, 512);
-        ctx.strokeStyle = '#111111';
-        ctx.lineWidth = 20;
-        ctx.lineCap = 'round';
-        ctx.lineJoin = 'round';
-        ctx.beginPath();
-        ctx.moveTo(210, 215);
-        ctx.bezierCurveTo(195, 130, 238, 120, 256, 195);
-        ctx.bezierCurveTo(274, 120, 317, 130, 302, 215);
-        ctx.bezierCurveTo(350, 225, 365, 295, 322, 338);
-        ctx.bezierCurveTo(280, 375, 195, 370, 172, 322);
-        ctx.bezierCurveTo(150, 275, 172, 225, 210, 215);
-        ctx.stroke();
-        ctx.fillStyle = '#111111';
-        ctx.beginPath();
-        ctx.arc(236, 276, 11, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.beginPath();
-        ctx.arc(276, 276, 11, 0, Math.PI * 2);
-        ctx.fill();
-
-        var pngUrl = c.toDataURL('image/png');
-        var iconLink = document.createElement('link');
-        iconLink.rel = 'apple-touch-icon';
-        iconLink.href = pngUrl;
-        document.head.appendChild(iconLink);
-
-        var manifestObj = {
-          name: "植誌 BOTANICA・跨領域植物圖鑑",
-          short_name: "植誌",
-          start_url: window.location.href,
-          display: "standalone",
-          background_color: "#F7F5F0",
-          theme_color: "#1B4332",
-          icons: [
-            { src: pngUrl, sizes: "192x192", type: "image/png" },
-            { src: pngUrl, sizes: "512x512", type: "image/png" }
-          ]
-        };
-        var blob = new Blob([JSON.stringify(manifestObj)], { type: 'application/manifest+json' });
-        document.getElementById('dynamic-manifest').href = URL.createObjectURL(blob);
-      } catch (e) {}
-    })();
-  </script>
-  <script src="https://tailwindcss.com"></script>
-  <style>
-    @import url('https://googleapis.com');
-    body {
-      font-family: 'Noto Sans TC', sans-serif;
-      background-color: #F7F5F0;
-      color: #2D312E;
-      -webkit-tap-highlight-color: transparent;
-    }
-    .font-serif-title { font-family: 'Noto Serif TC', serif; }
-    .no-scrollbar::-webkit-scrollbar { display: none; }
-    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<meta name="theme-color" content="#1B4332" />
+<title>植誌 BOTANICA</title>
+<link rel="manifest" href="manifest.json" />
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Noto Sans TC", sans-serif; background: #F7F5F0; color: #2D312E; padding-bottom: 85px; }
+  header { background: rgba(247,245,240,0.95); position: sticky; top: 0; z-index: 20; border-bottom: 1px solid #E6E2D8; padding: 14px 16px; }
+  .top-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+  .brand h1 { font-size: 19px; color: #1B4332; font-weight: 800; letter-spacing: 1px; }
+  .brand p { font-size: 11px; color: #6B706C; margin-top: 2px; }
+  .btn-group { display: flex; gap: 8px; }
+  button { border: none; cursor: pointer; font-family: inherit; transition: 0.15s; }
+  button:active { transform: scale(0.95); }
+  .btn-icon { width: 36px; height: 36px; border-radius: 50%; background: #fff; border: 1px solid #E2DDD2; font-size: 15px; }
+  .btn-primary { background: #1B4332; color: #fff; font-size: 12px; font-weight: 700; padding: 0 16px; height: 36px; border-radius: 99px; }
+  .stat-bar { display: flex; gap: 8px; align-items: center; margin-bottom: 10px; font-size: 12px; }
+  .pill { background: #fff; border: 1px solid #E6E2D8; padding: 5px 12px; border-radius: 99px; white-space: nowrap; }
+  .pill-warn { background: #FFF4E5; border-color: #F5D7B0; color: #9C5700; }
+  .search-box { flex: 1; min-width: 0; background: #fff; border: 1px solid #E6E2D8; border-radius: 99px; padding: 6px 14px; font-size: 12px; outline: none; }
+  .cats { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 2px; }
+  .cats::-webkit-scrollbar { display: none; }
+  .cat-btn { background: #fff; border: 1px solid #E6E2D8; color: #5C615D; padding: 6px 14px; border-radius: 99px; font-size: 12px; white-space: nowrap; }
+  .cat-btn.active { background: #1B4332; color: #fff; font-weight: 700; border-color: #1B4332; }
+  main { max-width: 960px; margin: 0 auto; padding: 16px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+  .card { background: #fff; border-radius: 22px; overflow: hidden; border: 1px solid #EAE6DC; box-shadow: 0 4px 16px rgba(27,67,50,0.05); }
+  .card-img-wrap { position: relative; height: 190px; background: #EAE6DC; }
+  .card-img-wrap img { width: 100%; height: 100%; object-fit: cover; }
+  .card-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.6), transparent 60%); }
+  .card-tag { position: absolute; top: 12px; left: 12px; background: rgba(255,255,255,0.92); color: #1B4332; font-size: 11px; font-weight: 700; padding: 4px 11px; border-radius: 99px; }
+  .card-tools { position: absolute; top: 12px; right: 12px; display: flex; gap: 6px; }
+  .tool-btn { width: 30px; height: 30px; border-radius: 50%; background: rgba(255,255,255,0.92); font-size: 12px; }
+  .card-title { position: absolute; bottom: 12px; left: 16px; right: 16px; color: #fff; }
+  .card-title h3 { font-size: 17px; font-weight: 700; }
+  .card-title p { font-size: 11px; opacity: 0.85; font-style: italic; }
+  .card-body { padding: 14px 16px; }
+  .card-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; font-size: 11px; color: #8C918D; }
+  .badge { padding: 3px 10px; border-radius: 99px; font-weight: 700; }
+  .b-ok { background: #E8F3EE; color: #1B4332; }
+  .b-due { background: #FEF3C7; color: #B45309; }
+  .b-over { background: #FEE2E2; color: #B91C1C; }
+  .card-notes { font-size: 12px; color: #4A4E4B; line-height: 1.5; margin-bottom: 12px; }
+  .card-actions { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; border-top: 1px solid #F2EFE9; padding-top: 12px; }
+  .act-btn { padding: 8px 0; border-radius: 14px; font-size: 12px; font-weight: 700; }
+  .act-w { background: #EDF6F9; color: #006D77; }
+  .act-f { background: #FFF8EB; color: #B45309; }
+  .act-n { background: #F4F2ED; color: #3A3F3B; }
+  .log-box { background: #fff; border-radius: 22px; padding: 18px; border: 1px solid #EAE6DC; }
+  .log-item { border-left: 3px solid #B7E4C7; padding-left: 12px; margin-bottom: 16px; }
+  .log-head { display: flex; justify-content: space-between; font-size: 13px; font-weight: 700; color: #1B4332; margin-bottom: 3px; }
+  .log-time { font-size: 11px; color: #8C918D; font-weight: 400; }
+  .log-act { font-size: 12px; font-weight: 600; margin-bottom: 4px; }
+  .log-note { font-size: 12px; color: #6B706C; background: #F7F5F0; padding: 8px 12px; border-radius: 12px; }
+  nav { position: fixed; bottom: 0; inset-x: 0; background: #fff; border-top: 1px solid #E6E2D8; display: flex; justify-content: space-around; padding: 8px 0; z-index: 20; }
+  .nav-btn { background: none; display: flex; flex-direction: column; align-items: center; gap: 2px; font-size: 11px; color: #8C918D; padding: 2px 24px; }
+  .nav-btn.active { color: #1B4332; font-weight: 700; }
+  .fab-ai { position: fixed; bottom: 72px; right: 16px; width: 48px; height: 48px; border-radius: 50%; background: #1B4332; color: #fff; font-size: 20px; box-shadow: 0 4px 14px rgba(0,0,0,0.2); z-index: 25; border: 2px solid #F7F5F0; }
+  .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 50; align-items: center; justify-content: center; padding: 16px; }
+  .modal-card { background: #fff; border-radius: 24px; width: 100%; max-width: 420px; padding: 22px; max-height: 88vh; overflow-y: auto; }
+  .modal-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+  .modal-head h3 { font-size: 17px; color: #1B4332; font-weight: 700; }
+  .field { margin-bottom: 12px; }
+  .field label { display: block; font-size: 12px; font-weight: 700; color: #4A4E4B; margin-bottom: 5px; }
+  .field input, .field select, .field textarea { width: 100%; background: #F7F5F0; border: 1px solid #E2DDD2; border-radius: 12px; padding: 10px 12px; font-size: 13px; font-family: inherit; }
+  .ai-win { display: none; position: fixed; bottom: 130px; right: 16px; left: 16px; max-width: 380px; margin-left: auto; height: 400px; background: #fff; border-radius: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); border: 1px solid #E2DDD2; z-index: 45; flex-direction: column; overflow: hidden; }
+  .ai-head { background: #1B4332; color: #fff; padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; font-size: 14px; font-weight: 700; }
+  .ai-body { flex: 1; padding: 12px; overflow-y: auto; background: #FAF8F5; font-size: 12px; line-height: 1.5; }
+  .ai-msg { background: #fff; padding: 10px 12px; border-radius: 16px; margin-bottom: 10px; border: 1px solid #EAE6DC; white-space: pre-wrap; }
+  .ai-msg.me { background: #1B4332; color: #fff; margin-left: 30px; border: none; }
+  .ai-foot { padding: 10px; background: #fff; border-top: 1px solid #EAE6DC; display: flex; gap: 8px; }
+  .ai-foot input { flex: 1; background: #F7F5F0; border: none; border-radius: 99px; padding: 8px 14px; font-size: 12px; outline: none; }
+  #toast { display: none; position: fixed; top: 75px; left: 50%; transform: translateX(-50%); background: #1B4332; color: #fff; font-size: 12px; font-weight: 700; padding: 8px 18px; border-radius: 99px; z-index: 60; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+</style>
 </head>
-<body class="min-h-screen pb-28">
+<body>
 
-  <!-- 頂部植物誌標頭 -->
-  <header class="bg-[#F7F5F0]/95 backdrop-blur-md sticky top-0 z-30 border-b border-[#E6E2D8]">
-    <div class="max-w-5xl mx-auto px-4 py-3.5 flex items-center justify-between">
-      <div>
-        <div class="flex items-center gap-2">
-          <span class="text-xl">🌿</span>
-          <h1 class="font-serif-title text-lg sm:text-xl font-bold tracking-wider text-[#1B4332]">植誌 BOTANICA</h1>
-        </div>
-        <p class="text-[11px] text-[#6B706C] mt-0.5">跨領域植物圖鑑・即時養護手札</p>
-      </div>
-      <div class="flex items-center gap-2">
-        <button type="button" onclick="openSettingsModal()" class="w-9 h-9 rounded-full bg-white border border-[#E2DDD2] flex items-center justify-center text-sm shadow-sm active:scale-95 transition">⚙️</button>
-        <button type="button" onclick="openPlantModal()" class="bg-[#1B4332] text-[#F7F5F0] text-xs font-bold px-4 py-2.5 rounded-full shadow-sm active:scale-95 transition flex items-center gap-1">
-          <span>＋</span> 收錄新植物
-        </button>
-      </div>
+<header>
+  <div class="top-row">
+    <div class="brand">
+      <h1>🌿 植誌 BOTANICA</h1>
+      <p>跨領域植物圖鑑・即時養護手札</p>
     </div>
-
-    <!-- 狀態摘要＋搜尋＋分類篩選 -->
-    <div class="max-w-5xl mx-auto px-4 pb-3 space-y-2.5">
-      <div class="flex items-center gap-2 text-xs">
-        <span class="bg-white border border-[#E6E2D8] px-3 py-1 rounded-full text-[#4A4E4B] shrink-0">
-          總收錄 <strong id="stat-total" class="text-[#1B4332] ml-0.5">0</strong>
-        </span>
-        <span class="bg-[#FFF4E5] border border-[#F5D7B0] px-3 py-1 rounded-full text-[#9C5700] shrink-0">
-          待補水 <strong id="stat-due" class="ml-0.5">0</strong>
-        </span>
-        <input type="text" id="search-input" oninput="renderPlants()" placeholder="搜尋植物..." class="flex-1 min-w-0 bg-white border border-[#E6E2D8] rounded-full px-3.5 py-1 text-xs focus:outline-none focus:border-[#1B4332]" />
-      </div>
-      <div id="category-filters" class="flex gap-2 overflow-x-auto no-scrollbar pb-0.5"></div>
-    </div>
-  </header>
-
-  <!-- 主內容區 -->
-  <main class="max-w-5xl mx-auto px-4 pt-4">
-    <!-- 分頁 1：植物圖鑑卡片牆 -->
-    <section id="view-dex" style="display: block;">
-      <div id="plant-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
-    </section>
-
-    <!-- 分頁 2：即時養護日誌時間軸 -->
-    <section id="view-logs" style="display: none;" class="max-w-2xl mx-auto">
-      <div class="bg-white rounded-3xl p-5 shadow-sm border border-[#EAE6DC]">
-        <div class="flex items-center justify-between mb-4 pb-3 border-b border-[#F0EDE6]">
-          <h2 class="font-serif-title font-bold text-base text-[#1B4332]">即時養護動態手札</h2>
-          <span class="text-[11px] bg-[#E8F3EE] text-[#1B4332] px-2.5 py-0.5 rounded-full font-medium">共 <span id="stat-logs">0</span> 筆紀錄</span>
-        </div>
-        <div id="log-feed" class="space-y-4"></div>
-      </div>
-    </section>
-  </main>
-
-  <!-- 操作成功浮動提示條 -->
-  <div id="toast" style="display: none;" class="fixed top-20 left-1/2 -translate-x-1/2 bg-[#1B4332] text-white text-xs font-bold px-4 py-2.5 rounded-full shadow-lg z-50"></div>
-
-  <!-- 右下角 AI 顧問懸浮鈕 -->
-  <button type="button" onclick="toggleAIChat()" class="fixed bottom-20 right-4 bg-[#1B4332] text-white w-12 h-12 rounded-full shadow-lg flex items-center justify-center text-xl z-40 border-2 border-[#F7F5F0] active:scale-90 transition">
-    ✨
-  </button>
-
-  <!-- 底部雙分頁導覽列 -->
-  <nav class="fixed bottom-0 inset-x-0 bg-white/95 backdrop-blur-md border-t border-[#E6E2D8] z-30">
-    <div class="max-w-md mx-auto flex justify-around py-2">
-      <button type="button" onclick="switchTab('dex')" id="tab-dex" class="flex flex-col items-center gap-0.5 text-[#1B4332] font-bold text-xs px-8 py-1">
-        <span class="text-lg">🪴</span>
-        <span>植物圖鑑</span>
-      </button>
-      <button type="button" onclick="switchTab('logs')" id="tab-logs" class="flex flex-col items-center gap-0.5 text-[#8C918D] font-medium text-xs px-8 py-1">
-        <span class="text-lg">📖</span>
-        <span>即時日誌</span>
-      </button>
-    </div>
-  </nav>
-
-  <!-- AI 園藝顧問懸浮對話框 -->
-  <div id="ai-chat-window" style="display: none; height: 430px;" class="fixed bottom-36 right-4 left-4 sm:left-auto sm:w-96 bg-white rounded-3xl shadow-2xl border border-[#E2DDD2] z-40 flex-col overflow-hidden">
-    <div class="bg-[#1B4332] text-[#F7F5F0] px-4 py-3 flex items-center justify-between">
-      <div class="flex items-center gap-2">
-        <span class="text-lg">✨</span>
-        <div>
-          <div class="font-bold text-sm">AI 跨領域植物顧問</div>
-          <div class="text-[10px] text-[#B7E4C7]">養護諮詢・貼上舊對話自動建檔</div>
-        </div>
-      </div>
-      <button type="button" onclick="toggleAIChat()" class="text-white/80 hover:text-white text-lg px-2">✕</button>
-    </div>
-    <div class="bg-[#F2EFE9] px-3 py-2 flex gap-1.5 overflow-x-auto no-scrollbar border-b border-[#E6E2D8] text-[11px] shrink-0">
-      <button type="button" onclick="fillPrompt('請幫我檢查目前圖鑑中，哪些植物今天需要特別注意濕度或澆水？')" class="bg-white border border-[#DCD7CC] text-[#1B4332] px-2.5 py-1 rounded-full whitespace-nowrap">💧 今日巡檢建議</button>
-      <button type="button" onclick="fillPrompt('請從以下文字幫我提取植物並轉成 JSON 格式新增到圖鑑：\n[貼上你的植物筆記或舊對話]')" class="bg-white border border-[#DCD7CC] text-[#1B4332] px-2.5 py-1 rounded-full whitespace-nowrap">📥 文字批量匯入</button>
-    </div>
-    <div id="ai-messages" class="flex-1 p-3.5 overflow-y-auto space-y-3 text-xs leading-relaxed bg-[#FAF8F5]">
-      <div class="bg-white p-3.5 rounded-2xl rounded-tl-none shadow-sm border border-[#EAE6DC] text-[#3A3F3B]">
-        你好！我是你的專屬植物顧問。你可以直接問我鹿角蕨、橄欖科或任何領域植物的照顧細節，或是點擊上方<strong>「文字批量匯入」</strong>把植物清單交給我自動建立圖鑑卡片。
-      </div>
-    </div>
-    <div class="p-2.5 bg-white border-t border-[#EAE6DC] flex gap-2">
-      <textarea id="ai-input" rows="1" placeholder="輸入問題或貼上紀錄..." class="flex-1 bg-[#F7F5F0] rounded-2xl px-3.5 py-2 text-xs focus:outline-none resize-none"></textarea>
-      <button type="button" onclick="sendAIMessage()" class="bg-[#1B4332] text-white px-4 rounded-2xl font-bold text-xs">送出</button>
+    <div class="btn-group">
+      <button type="button" class="btn-icon" onclick="openSettings()">⚙️</button>
+      <button type="button" class="btn-primary" onclick="openForm()">＋ 收錄植物</button>
     </div>
   </div>
+  <div class="stat-bar">
+    <span class="pill">總收錄 <strong id="st-total">0</strong></span>
+    <span class="pill pill-warn">待補水 <strong id="st-due">0</strong></span>
+    <input type="text" id="q" class="search-box" oninput="render()" placeholder="搜尋植物..." />
+  </div>
+  <div id="cats" class="cats"></div>
+</header>
 
-  <!-- 新增/編輯植物彈出視窗 -->
-  <div id="plant-modal" style="display: none;" class="fixed inset-0 bg-black/50 z-50 items-end sm:items-center justify-center p-0 sm:p-4">
-    <div class="bg-white rounded-t-3xl sm:rounded-3xl max-w-md w-full p-6 shadow-2xl max-h-[90vh] overflow-y-auto">
-      <div class="flex justify-between items-center mb-4">
-        <h3 id="modal-title" class="font-serif-title text-lg font-bold text-[#1B4332]">收錄新植物至圖鑑</h3>
-        <button type="button" onclick="closePlantModal()" class="w-8 h-8 rounded-full bg-[#F7F5F0] text-gray-600 flex items-center justify-center">✕</button>
-      </div>
-      <div class="space-y-3.5 text-xs">
-        <input type="hidden" id="plant-id" />
-        <div>
-          <label class="block font-bold text-[#4A4E4B] mb-1">植物名稱 *</label>
-          <input type="text" id="plant-name" placeholder="例如：女王鹿角蕨、神聖乳香、象牙宮" class="w-full bg-[#F7F5F0] border border-[#E2DDD2] rounded-xl px-3.5 py-2.5 text-sm" />
-        </div>
-        <div class="grid grid-cols-2 gap-3">
-          <div>
-            <label class="block font-bold text-[#4A4E4B] mb-1">所屬領域 *</label>
-            <select id="plant-category" class="w-full bg-[#F7F5F0] border border-[#E2DDD2] rounded-xl px-3 py-2.5 text-sm">
+<main>
+  <section id="sec-dex"><div id="grid" class="grid"></div></section>
+  <section id="sec-logs" style="display:none;"><div class="log-box"><div id="logs"></div></div></section>
+</main>
+
+<div id="toast"></div>
+<button type="button" class="fab-ai" onclick="toggleAI()">✨</button>
+
+<nav>
+  <button type="button" id="nb-dex" class="nav-btn active" onclick="goTab('dex')"><span style="font-size:18px">🪴</span><span>植物圖鑑</span></button>
+  <button type="button" id="nb-logs" class="nav-btn" onclick="goTab('logs')"><span style="font-size:18px">📖</span><span>即時日誌</span></button>
+</nav>
+
+<div id="ai-win" class="ai-win">
+  <div class="ai-head"><span>✨ AI 跨領域植物顧問</span><button type="button" onclick="toggleAI()" style="background:none;color:#fff;font-size:16px">✕</button></div>
+  <div id="ai-msgs" class="ai-body"><div class="ai-msg">你好！請點右上角 ⚙️ 填入免費 Gemini API Key 即可開始諮詢植物養護，或貼上植物清單讓我自動建檔！</div></div>
+  <div class="ai-foot"><input type="text" id="ai-in" placeholder="問問植物養護問題..." /><button type="button" class="btn-primary" onclick="askAI()">送出</button></div>
+</div>
+
+<div id="m-plant" class="modal">
+  <div class="modal-card">
+    <div class="modal-head"><h3 id="m-title">收錄新植物</h3><button type="button" class="btn-icon" onclick="closeForm()">✕</button></div>
+    <input type="hidden" id="f-id" />
+    <div class="field"><label>植物名稱 *</label><input type="text" id="f-name" placeholder="例如：女王鹿角蕨、神聖乳香" /></div>
+    <div class="field"><label>所屬領域</label>
+      <select id="f-cat">
+        <option value="附生鹿角蕨">🦌 附生鹿角蕨</option>
+        <option value="橄欖科植物">🫒 橄欖科植物</option>
+        <option value="雨林觀葉">🌿 雨林觀葉</option>
+        <option value="塊根植物">🥔 塊根植物</option>
+        <option value="食蟲植物">🪤 食蟲植物</option>
