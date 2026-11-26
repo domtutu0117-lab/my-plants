@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <meta name="theme-color" content="#1B4332" />
   <title>植誌 BOTANICA・跨領域植物圖鑑</title>
-  <link rel="manifest" href="manifest.json" />
+  <link id="dynamic-manifest" rel="manifest" href="manifest.json" />
   <script src="https://tailwindcss.com"></script>
   <style>
     @import url('https://googleapis.com');
@@ -34,7 +34,7 @@
       </div>
       <div class="flex items-center gap-2">
         <button type="button" onclick="openSettingsModal()" class="w-9 h-9 rounded-full bg-white border border-[#E2DDD2] flex items-center justify-center text-sm shadow-sm active:scale-95 transition">⚙️</button>
-        <button type="button" onclick="openPlantModal()" class="bg-[#1B4332] hover:bg-[#2D6A4F] text-[#F7F5F0] text-xs font-bold px-4 py-2.5 rounded-full shadow-sm active:scale-95 transition flex items-center gap-1">
+        <button type="button" onclick="openPlantModal()" class="bg-[#1B4332] text-[#F7F5F0] text-xs font-bold px-4 py-2.5 rounded-full shadow-sm active:scale-95 transition flex items-center gap-1">
           <span>＋</span> 收錄新植物
         </button>
       </div>
@@ -58,12 +58,12 @@
   <!-- 主內容區 -->
   <main class="max-w-5xl mx-auto px-4 pt-4">
     <!-- 分頁 1：植物圖鑑卡片牆 -->
-    <section id="view-dex">
+    <section id="view-dex" style="display: block;">
       <div id="plant-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
     </section>
 
     <!-- 分頁 2：即時養護日誌時間軸 -->
-    <section id="view-logs" class="hidden max-w-2xl mx-auto">
+    <section id="view-logs" style="display: none;" class="max-w-2xl mx-auto">
       <div class="bg-white rounded-3xl p-5 shadow-sm border border-[#EAE6DC]">
         <div class="flex items-center justify-between mb-4 pb-3 border-b border-[#F0EDE6]">
           <h2 class="font-serif-title font-bold text-base text-[#1B4332]">即時養護動態手札</h2>
@@ -75,7 +75,7 @@
   </main>
 
   <!-- 操作成功浮動提示條 -->
-  <div id="toast" class="hidden fixed top-20 left-1/2 -translate-x-1/2 bg-[#1B4332] text-white text-xs font-bold px-4 py-2.5 rounded-full shadow-lg z-50 transition-opacity"></div>
+  <div id="toast" style="display: none;" class="fixed top-20 left-1/2 -translate-x-1/2 bg-[#1B4332] text-white text-xs font-bold px-4 py-2.5 rounded-full shadow-lg z-50"></div>
 
   <!-- 右下角 AI 顧問懸浮鈕 -->
   <button type="button" onclick="toggleAIChat()" class="fixed bottom-20 right-4 bg-[#1B4332] text-white w-12 h-12 rounded-full shadow-lg flex items-center justify-center text-xl z-40 border-2 border-[#F7F5F0] active:scale-90 transition">
@@ -97,7 +97,7 @@
   </nav>
 
   <!-- AI 園藝顧問懸浮對話框 -->
-  <div id="ai-chat-window" class="hidden fixed bottom-36 right-4 left-4 sm:left-auto sm:w-96 bg-white rounded-3xl shadow-2xl border border-[#E2DDD2] z-40 flex flex-col overflow-hidden" style="height: 430px;">
+  <div id="ai-chat-window" style="display: none; height: 430px;" class="fixed bottom-36 right-4 left-4 sm:left-auto sm:w-96 bg-white rounded-3xl shadow-2xl border border-[#E2DDD2] z-40 flex-col overflow-hidden">
     <div class="bg-[#1B4332] text-[#F7F5F0] px-4 py-3 flex items-center justify-between">
       <div class="flex items-center gap-2">
         <span class="text-lg">✨</span>
@@ -123,8 +123,8 @@
     </div>
   </div>
 
-  <!-- 新增/編輯植物 Modal -->
-  <div id="plant-modal" class="hidden fixed inset-0 bg-black/50 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4">
+  <!-- 新增/編輯植物彈出視窗 -->
+  <div id="plant-modal" style="display: none;" class="fixed inset-0 bg-black/50 z-50 items-end sm:items-center justify-center p-0 sm:p-4">
     <div class="bg-white rounded-t-3xl sm:rounded-3xl max-w-md w-full p-6 shadow-2xl max-h-[90vh] overflow-y-auto">
       <div class="flex justify-between items-center mb-4">
         <h3 id="modal-title" class="font-serif-title text-lg font-bold text-[#1B4332]">收錄新植物至圖鑑</h3>
@@ -159,7 +159,7 @@
           <div class="space-y-2 bg-[#F7F5F0] p-3 rounded-2xl border border-[#E2DDD2]">
             <input type="file" id="plant-file" accept="image/*" onchange="handleImageUpload(event)" class="block w-full text-xs text-gray-600" />
             <input type="url" id="plant-image-url" placeholder="或貼上真實植物圖片網址 https://..." oninput="previewImageUrl()" class="w-full bg-white border border-[#E2DDD2] rounded-xl px-3 py-2 text-xs" />
-            <img id="image-preview" src="" alt="預覽圖" class="hidden w-full h-40 object-cover rounded-xl mt-2" />
+            <img id="image-preview" src="" alt="預覽圖" style="display: none;" class="w-full h-40 object-cover rounded-xl mt-2" />
           </div>
         </div>
         <div>
@@ -167,8 +167,3 @@
           <textarea id="plant-notes" rows="2" placeholder="記錄光照需求、濕度或介質比例..." class="w-full bg-[#F7F5F0] border border-[#E2DDD2] rounded-xl px-3.5 py-2.5 text-sm"></textarea>
         </div>
         <button type="button" onclick="savePlant()" class="w-full py-3.5 rounded-full bg-[#1B4332] text-white font-bold text-sm shadow-md active:scale-95 transition">儲存至我的圖鑑</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- 設定與備份 Modal -->
