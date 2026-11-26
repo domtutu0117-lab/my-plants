@@ -4,20 +4,22 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="theme-color" content="#1B4332">
-<title>植誌 BOTANICA</title>
+<title>植誌 BOTANICA・跨領域植物圖鑑</title>
 <link rel="manifest" href="manifest.json">
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-body { font-family: sans-serif; background: #F7F5F0; color: #2D312E; padding-bottom: 85px; }
-header { background: #F7F5F0; position: sticky; top: 0; z-index: 20; border-bottom: 1px solid #E6E2D8; padding: 14px 16px; }
+body { font-family: -apple-system, BlinkMacSystemFont, "Noto Sans TC", sans-serif; background: #F7F5F0; color: #2D312E; padding-bottom: 92px; }
+header { background: rgba(247, 245, 240, 0.96); position: sticky; top: 0; z-index: 20; border-bottom: 1px solid #E6E2D8; padding: 14px 16px; }
 .top-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-.brand h1 { font-size: 19px; color: #1B4332; font-weight: 800; }
+.brand h1 { font-size: 19px; color: #1B4332; font-weight: 800; letter-spacing: 0.5px; }
 .brand p { font-size: 11px; color: #6B706C; margin-top: 2px; }
 .btn-group { display: flex; gap: 8px; }
-button { border: none; cursor: pointer; font-family: inherit; }
-button:active { opacity: 0.75; }
-.btn-icon { width: 36px; height: 36px; border-radius: 50%; background: #fff; border: 1px solid #E2DDD2; font-size: 15px; }
-.btn-primary { background: #1B4332; color: #fff; font-size: 12px; font-weight: 700; padding: 0 16px; height: 36px; border-radius: 99px; }
+button { border: none; cursor: pointer; font-family: inherit; transition: transform 0.1s ease, opacity 0.1s ease; }
+button:active { transform: scale(0.95); opacity: 0.85; }
+.btn-icon { width: 36px; height: 36px; border-radius: 50%; background: #fff; border: 1px solid #E2DDD2; font-size: 15px; display: inline-flex; align-items: center; justify-content: center; }
+.btn-primary { background: #1B4332; color: #fff; font-size: 12px; font-weight: 700; padding: 0 16px; height: 36px; border-radius: 99px; display: inline-flex; align-items: center; justify-content: center; gap: 4px; }
+.btn-danger { background: #B91C1C; color: #fff; font-size: 12px; font-weight: 700; padding: 0 16px; height: 38px; border-radius: 99px; }
+.btn-ghost { background: #F0EDE6; color: #4A4E4B; font-size: 12px; font-weight: 700; padding: 0 16px; height: 38px; border-radius: 99px; }
 .stat-bar { display: flex; gap: 8px; align-items: center; margin-bottom: 10px; font-size: 12px; }
 .pill { background: #fff; border: 1px solid #E6E2D8; padding: 5px 12px; border-radius: 99px; white-space: nowrap; }
 .pill-warn { background: #FFF4E5; border-color: #F5D7B0; color: #9C5700; }
@@ -25,17 +27,18 @@ button:active { opacity: 0.75; }
 .cats { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 2px; }
 .cats::-webkit-scrollbar { display: none; }
 .cat-btn { background: #fff; border: 1px solid #E6E2D8; color: #5C615D; padding: 6px 14px; border-radius: 99px; font-size: 12px; white-space: nowrap; }
-.cat-btn.active { background: #1B4332; color: #fff; font-weight: 700; }
+.cat-btn.active { background: #1B4332; color: #fff; font-weight: 700; border-color: #1B4332; }
 main { max-width: 960px; margin: 0 auto; padding: 16px; }
 .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
 .card { background: #fff; border-radius: 22px; overflow: hidden; border: 1px solid #EAE6DC; box-shadow: 0 4px 16px rgba(27,67,50,0.05); }
-.card-img-wrap { position: relative; height: 190px; background: #EAE6DC; }
+.card-img-wrap { position: relative; height: 190px; background: #EAE6DC; cursor: pointer; }
 .card-img-wrap img { width: 100%; height: 100%; object-fit: cover; }
-.card-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.6), transparent 60%); }
-.card-tag { position: absolute; top: 12px; left: 12px; background: rgba(255,255,255,0.92); color: #1B4332; font-size: 11px; font-weight: 700; padding: 4px 11px; border-radius: 99px; }
+.card-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.68), transparent 60%); }
+.card-tag { position: absolute; top: 12px; left: 12px; background: rgba(255,255,255,0.94); color: #1B4332; font-size: 11px; font-weight: 700; padding: 4px 11px; border-radius: 99px; }
+.card-hint { position: absolute; bottom: 12px; right: 14px; background: rgba(255,255,255,0.22); backdrop-filter: blur(4px); color: #fff; font-size: 10px; padding: 3px 8px; border-radius: 99px; }
 .card-tools { position: absolute; top: 12px; right: 12px; display: flex; gap: 6px; z-index: 5; }
-.tool-btn { width: 32px; height: 32px; border-radius: 50%; background: rgba(255,255,255,0.95); font-size: 13px; }
-.card-title { position: absolute; bottom: 12px; left: 16px; right: 16px; color: #fff; }
+.tool-btn { width: 32px; height: 32px; border-radius: 50%; background: rgba(255,255,255,0.95); font-size: 13px; box-shadow: 0 2px 6px rgba(0,0,0,0.15); }
+.card-title { position: absolute; bottom: 12px; left: 16px; right: 85px; color: #fff; }
 .card-title h3 { font-size: 17px; font-weight: 700; }
 .card-title p { font-size: 11px; opacity: 0.85; font-style: italic; }
 .card-body { padding: 14px 16px; }
@@ -44,14 +47,15 @@ main { max-width: 960px; margin: 0 auto; padding: 16px; }
 .b-ok { background: #E8F3EE; color: #1B4332; }
 .b-due { background: #FEF3C7; color: #B45309; }
 .b-over { background: #FEE2E2; color: #B91C1C; }
-.card-notes { font-size: 12px; color: #4A4E4B; line-height: 1.5; margin-bottom: 12px; }
+.card-notes { font-size: 12px; color: #4A4E4B; line-height: 1.5; margin-bottom: 12px; min-height: 36px; }
 .card-actions { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; border-top: 1px solid #F2EFE9; padding-top: 12px; }
 .act-btn { padding: 9px 0; border-radius: 14px; font-size: 12px; font-weight: 700; }
 .act-w { background: #EDF6F9; color: #006D77; }
 .act-f { background: #FFF8EB; color: #B45309; }
 .act-n { background: #F4F2ED; color: #3A3F3B; }
 .log-box { background: #fff; border-radius: 22px; padding: 18px; border: 1px solid #EAE6DC; }
-.log-item { border-left: 3px solid #B7E4C7; padding-left: 12px; margin-bottom: 16px; }
+.log-header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 12px; margin-bottom: 14px; border-bottom: 1px solid #F0EDE6; }
+.log-item { border-left: 3px solid #2D6A4F; padding-left: 12px; margin-bottom: 16px; }
 .log-head { display: flex; justify-content: space-between; font-size: 13px; font-weight: 700; color: #1B4332; margin-bottom: 3px; }
 .log-time { font-size: 11px; color: #8C918D; font-weight: 400; }
 .log-act { font-size: 12px; font-weight: 600; margin-bottom: 4px; }
@@ -59,22 +63,32 @@ main { max-width: 960px; margin: 0 auto; padding: 16px; }
 nav { position: fixed; bottom: 0; left: 0; right: 0; background: #fff; border-top: 1px solid #E6E2D8; display: flex; justify-content: space-around; padding: 8px 0; z-index: 20; }
 .nav-btn { background: none; display: flex; flex-direction: column; align-items: center; gap: 2px; font-size: 11px; color: #8C918D; padding: 2px 24px; }
 .nav-btn.active { color: #1B4332; font-weight: 700; }
-.fab-ai { position: fixed; bottom: 72px; right: 16px; width: 48px; height: 48px; border-radius: 50%; background: #1B4332; color: #fff; font-size: 20px; box-shadow: 0 4px 14px rgba(0,0,0,0.2); z-index: 25; border: 2px solid #F7F5F0; }
-.modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.55); z-index: 50; align-items: center; justify-content: center; padding: 16px; }
-.modal-card { background: #fff; border-radius: 24px; width: 100%; max-width: 420px; padding: 22px; max-height: 88vh; overflow-y: auto; }
+.fab-ai { position: fixed; bottom: 74px; right: 16px; width: 50px; height: 50px; border-radius: 50%; background: #1B4332; color: #fff; font-size: 20px; box-shadow: 0 4px 14px rgba(0,0,0,0.22); z-index: 25; border: 2px solid #F7F5F0; }
+.modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.58); z-index: 50; align-items: center; justify-content: center; padding: 16px; }
+.modal-card { background: #fff; border-radius: 24px; width: 100%; max-width: 440px; padding: 22px; max-height: 88vh; overflow-y: auto; box-shadow: 0 12px 32px rgba(0,0,0,0.25); }
 .modal-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
 .modal-head h3 { font-size: 17px; color: #1B4332; font-weight: 700; }
 .field { margin-bottom: 12px; }
 .field label { display: block; font-size: 12px; font-weight: 700; color: #4A4E4B; margin-bottom: 5px; }
-.field input, .field select, .field textarea { width: 100%; background: #F7F5F0; border: 1px solid #E2DDD2; border-radius: 12px; padding: 10px 12px; font-size: 13px; font-family: inherit; }
-.ai-win { display: none; position: fixed; bottom: 130px; right: 16px; left: 16px; max-width: 380px; margin-left: auto; height: 400px; background: #fff; border-radius: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); border: 1px solid #E2DDD2; z-index: 45; flex-direction: column; overflow: hidden; }
+.field input, .field select, .field textarea { width: 100%; background: #F7F5F0; border: 1px solid #E2DDD2; border-radius: 12px; padding: 10px 12px; font-size: 13px; font-family: inherit; outline: none; }
+.chip-row { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+.chip { background: #E8F3EE; color: #1B4332; font-size: 11px; font-weight: 700; padding: 5px 11px; border-radius: 99px; }
+.spec-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 12px 0; }
+.spec-box { background: #F7F5F0; border: 1px solid #E6E2D8; border-radius: 14px; padding: 10px 8px; text-align: center; }
+.spec-label { font-size: 10px; color: #6B706C; margin-bottom: 3px; }
+.spec-val { font-size: 12px; font-weight: 700; color: #1B4332; }
+.wiki-block { background: #FAF8F5; border-left: 3px solid #1B4332; padding: 10px 12px; border-radius: 0 12px 12px 0; margin-bottom: 10px; font-size: 12px; line-height: 1.55; }
+.wiki-block strong { display: block; color: #1B4332; margin-bottom: 2px; }
+.ai-win { display: none; position: fixed; bottom: 134px; right: 16px; left: 16px; max-width: 380px; margin-left: auto; height: 410px; background: #fff; border-radius: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.22); border: 1px solid #E2DDD2; z-index: 45; flex-direction: column; overflow: hidden; }
 .ai-head { background: #1B4332; color: #fff; padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; font-size: 14px; font-weight: 700; }
+.ai-quick { background: #F2EFE9; padding: 8px 12px; display: flex; gap: 6px; overflow-x: auto; border-bottom: 1px solid #E6E2D8; }
 .ai-body { flex: 1; padding: 12px; overflow-y: auto; background: #FAF8F5; font-size: 12px; line-height: 1.5; }
 .ai-msg { background: #fff; padding: 10px 12px; border-radius: 16px; margin-bottom: 10px; border: 1px solid #EAE6DC; white-space: pre-wrap; }
 .ai-msg.me { background: #1B4332; color: #fff; margin-left: 30px; border: none; }
 .ai-foot { padding: 10px; background: #fff; border-top: 1px solid #EAE6DC; display: flex; gap: 8px; }
 .ai-foot input { flex: 1; background: #F7F5F0; border: none; border-radius: 99px; padding: 8px 14px; font-size: 12px; outline: none; }
-#toast { display: none; position: fixed; top: 75px; left: 50%; transform: translateX(-50%); background: #1B4332; color: #fff; font-size: 12px; font-weight: 700; padding: 8px 18px; border-radius: 99px; z-index: 60; }
+#toast { display: none; position: fixed; top: 75px; left: 50%; transform: translateX(-50%); background: #1B4332; color: #fff; font-size: 12px; font-weight: 700; padding: 9px 20px; border-radius: 99px; z-index: 60; box-shadow: 0 4px 14px rgba(0,0,0,0.2); white-space: nowrap; }
+.err-text { color: #B91C1C; font-size: 11px; font-weight: 700; margin-top: 4px; display: none; }
 </style>
 </head>
 <body>
@@ -83,7 +97,7 @@ nav { position: fixed; bottom: 0; left: 0; right: 0; background: #fff; border-to
   <div class="top-row">
     <div class="brand">
       <h1>🌿 植誌 BOTANICA</h1>
-      <p>跨領域植物圖鑑・即時養護手札</p>
+      <p>跨領域植物圖鑑・深度百科與養護手札</p>
     </div>
     <div class="btn-group">
       <button type="button" class="btn-icon" onclick="openSet()">⚙️</button>
@@ -93,52 +107,7 @@ nav { position: fixed; bottom: 0; left: 0; right: 0; background: #fff; border-to
   <div class="stat-bar">
     <span class="pill">總收錄 <strong id="st-total">0</strong></span>
     <span class="pill pill-warn">待補水 <strong id="st-due">0</strong></span>
-    <input type="text" id="q" class="search-box" oninput="render()" placeholder="搜尋植物...">
-  </div>
-  <div id="cats" class="cats"></div>
-</header>
-
-<main>
-  <section id="sec-dex"><div id="grid" class="grid"></div></section>
-  <section id="sec-logs" style="display:none;"><div class="log-box"><div id="logs"></div></div></section>
-</main>
-
-<div id="toast"></div>
-<button type="button" class="fab-ai" onclick="toggleAI()">✨</button>
-
-<nav>
-  <button type="button" id="nb-dex" class="nav-btn active" onclick="goTab('dex')"><span>🪴</span><span>植物圖鑑</span></button>
-  <button type="button" id="nb-logs" class="nav-btn" onclick="goTab('logs')"><span>📖</span><span>即時日誌</span></button>
-</nav>
-
-<div id="ai-win" class="ai-win">
-  <div class="ai-head"><span>✨ AI 跨領域植物顧問</span><button type="button" onclick="toggleAI()" style="background:none;color:#fff;font-size:18px;padding:4px">✕</button></div>
-  <div id="ai-msgs" class="ai-body"><div class="ai-msg">你好！請點右上角 ⚙️ 填入免費 Gemini API Key 即可諮詢植物養護。</div></div>
-  <div class="ai-foot"><input type="text" id="ai-in" placeholder="問問植物養護問題..."><button type="button" class="btn-primary" onclick="askAI()">送出</button></div>
-</div>
-
-<div id="m-plant" class="modal">
-  <div class="modal-card">
-    <div class="modal-head"><h3 id="m-title">收錄新植物</h3><button type="button" class="btn-icon" onclick="closeAdd()">✕</button></div>
-    <input type="hidden" id="f-id">
-    <div class="field"><label>植物名稱 *</label><input type="text" id="f-name" placeholder="例如：女王鹿角蕨、神聖乳香"></div>
-    <div class="field"><label>所屬領域</label>
-      <select id="f-cat">
-        <option value="附生鹿角蕨">🦌 附生鹿角蕨</option>
-        <option value="橄欖科植物">🫒 橄欖科植物</option>
-        <option value="雨林觀葉">🌿 雨林觀葉</option>
-        <option value="塊根植物">🥔 塊根植物</option>
-        <option value="食蟲植物">🪤 食蟲植物</option>
-        <option value="沙漠多肉">🌵 沙漠多肉</option>
-        <option value="蘭科植物">🌸 蘭科植物</option>
-      </select>
-    </div>
-    <div class="field"><label>澆水週期 (天)</label><input type="number" id="f-day" value="5" min="1" max="90"></div>
-    <div class="field"><label>上傳實拍照片 或 貼上圖片網址</label>
-      <input type="file" id="f-file" accept="image/*" onchange="pickImg(event)" style="margin-bottom:6px">
-t>
-    </div>
-    <div class="field"><label>澆水週期 (天)</label><input type="number" id="f-day" value="5" min="1" max="90" /></div>
+ass="field"><label>澆水週期 (天)</label><input type="number" id="f-day" value="5" min="1" max="90" /></div>
     <div class="field"><label>上傳實拍照片 或 貼上圖片網址</label>
       <input type="file" id="f-file" accept="image/*" style="margin-bottom:6px" />
       <input type="url" id="f-url" placeholder="https://..." />
