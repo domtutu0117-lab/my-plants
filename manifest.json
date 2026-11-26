@@ -2,15 +2,15 @@
   "name": "植誌 BOTANICA・跨領域植物圖鑑",
   "short_name": "植誌",
   "description": "專屬跨領域植物圖鑑、即時養護日誌與 AI 園藝顧問",
-  "start_url": "./index.html",
-  "scope": "./",
+  "start_url": "https://github.io",
+  "scope": "https://github.io",
   "display": "standalone",
   "background_color": "#F7F5F0",
   "theme_color": "#1B4332",
   "orientation": "portrait",
   "icons": [
     {
-      "src": "https://githubusercontent.com",
+      "src": "https://flaticon.com",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
