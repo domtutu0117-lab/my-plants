@@ -3,362 +3,101 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<meta name="theme-color" content="#1B4332">
 <title>植誌 BOTANICA</title>
 <link rel="manifest" href="manifest.json">
 <style>
-*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-body{font-family:sans-serif;background:#F7F5F0;color:#2D312E;padding-bottom:88px}
-header{background:#F7F5F0;position:sticky;top:0;z-index:20;border-bottom:1px solid #E6E2D8;padding:12px 16px}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:sans-serif;background:#F7F5F0;color:#2D312E;padding-bottom:85px}
+header{background:#F7F5F0;position:sticky;top:0;z-index:10;border-bottom:1px solid #E6E2D8;padding:12px 16px}
 .row{display:flex;justify-content:space-between;align-items:center;gap:8px}
-h1{font-size:18px;color:#1B4332;font-weight:800}
-.sub{font-size:11px;color:#6B706C;margin:2px 0 8px}
+h1{font-size:18px;color:#1B4332}
 button{border:none;cursor:pointer;font-family:inherit}
-button:active{opacity:.75;transform:scale(.96)}
-.b-ico{width:34px;height:34px;border-radius:50%;background:#fff;border:1px solid #E2DDD2;font-size:14px}
-.b-pri{background:#1B4332;color:#fff;font-size:12px;font-weight:700;padding:0 14px;height:34px;border-radius:99px}
-.b-red{background:#B91C1C;color:#fff;font-size:12px;font-weight:700;padding:0 14px;height:36px;border-radius:99px}
-.b-gry{background:#EAE6DC;color:#3A3F3B;font-size:12px;font-weight:700;padding:0 14px;height:36px;border-radius:99px}
+.b1{background:#1B4332;color:#fff;font-size:12px;font-weight:700;padding:8px 14px;border-radius:99px}
+.b2{background:#fff;border:1px solid #E2DDD2;width:34px;height:34px;border-radius:50%}
 .pill{background:#fff;border:1px solid #E6E2D8;padding:4px 10px;border-radius:99px;font-size:11px;white-space:nowrap}
-.warn{background:#FFF4E5;border-color:#F5D7B0;color:#9C5700}
-.q{flex:1;min-width:0;background:#fff;border:1px solid #E6E2D8;border-radius:99px;padding:5px 12px;font-size:12px;outline:0}
+.q{flex:1;min-width:0;background:#fff;border:1px solid #E6E2D8;border-radius:99px;padding:6px 12px;font-size:12px}
 .cats{display:flex;gap:6px;overflow-x:auto;margin-top:8px}
-.cats::-webkit-scrollbar{display:none}
-.c-btn{background:#fff;border:1px solid #E6E2D8;color:#5C615D;padding:5px 12px;border-radius:99px;font-size:12px;white-space:nowrap}
-.c-btn.on{background:#1B4332;color:#fff;font-weight:700}
-main{max-width:960px;margin:0 auto;padding:14px}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:14px}
-.card{background:#fff;border-radius:20px;overflow:hidden;border:1px solid #EAE6DC}
-.c-img{position:relative;height:175px;background:#EAE6DC;cursor:pointer}
-.c-img img{width:100%;height:100%;object-fit:cover}
-.c-ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.68),transparent 60%)}
-.c-tag{position:absolute;top:10px;left:10px;background:rgba(255,255,255,.93);color:#1B4332;font-size:11px;font-weight:700;padding:3px 10px;border-radius:99px}
-.c-more{position:absolute;bottom:10px;right:12px;background:rgba(255,255,255,.25);color:#fff;font-size:10px;padding:2px 8px;border-radius:99px}
-.c-tls{position:absolute;top:10px;right:10px;display:flex;gap:5px;z-index:5}
-.t-btn{width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.95);font-size:12px}
-.c-tit{position:absolute;bottom:10px;left:14px;right:75px;color:#fff}
-.c-tit h3{font-size:16px}
-.c-tit p{font-size:10px;opacity:.85;font-style:italic}
-.c-bd{padding:12px 14px}
-.c-mt{display:flex;justify-content:space-between;align-items:center;font-size:11px;color:#8C918D;margin-bottom:6px}
-.bdg{padding:2px 9px;border-radius:99px;font-weight:700}
-.ok{background:#E8F3EE;color:#1B4332}.due{background:#FEF3C7;color:#B45309}.ov{background:#FEE2E2;color:#B91C1C}
-.c-nt{font-size:12px;color:#4A4E4B;line-height:1.45;margin-bottom:10px}
-.c-ac{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;border-top:1px solid #F2EFE9;padding-top:10px}
-.ab{padding:8px 0;border-radius:12px;font-size:12px;font-weight:700}
-.aw{background:#EDF6F9;color:#006D77}.af{background:#FFF8EB;color:#B45309}.an{background:#F4F2ED;color:#3A3F3B}
-.lbox{background:#fff;border-radius:20px;padding:16px;border:1px solid #EAE6DC}
-.li{border-left:3px solid #2D6A4F;padding-left:10px;margin-bottom:14px}
-.lh{display:flex;justify-content:space-between;font-size:13px;font-weight:700;color:#1B4332}
-.lt{font-size:11px;color:#8C918D;font-weight:400}
-.la{font-size:12px;font-weight:600;margin:2px 0}
-.ln{font-size:12px;color:#6B706C;background:#F7F5F0;padding:6px 10px;border-radius:10px}
-nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #E6E2D8;display:flex;justify-content:space-around;padding:7px 0;z-index:20}
-.nb{background:none;display:flex;flex-direction:column;align-items:center;font-size:11px;color:#8C918D;padding:2px 24px}
-.nb.on{color:#1B4332;font-weight:700}
-.fab{position:fixed;bottom:70px;right:14px;width:46px;height:46px;border-radius:50%;background:#1B4332;color:#fff;font-size:19px;box-shadow:0 4px 12px rgba(0,0,0,.22);z-index:25;border:2px solid #F7F5F0}
-.mod{display:none;position:fixed;inset:0;background:rgba(0,0,0,.58);z-index:50;align-items:center;justify-content:center;padding:14px}
-.mc{background:#fff;border-radius:22px;width:100%;max-width:420px;padding:18px;max-height:88vh;overflow-y:auto}
-.mh{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
-.fld{margin-bottom:10px}
-.fld label{display:block;font-size:12px;font-weight:700;color:#4A4E4B;margin-bottom:4px}
-.fld input,.fld select,.fld textarea{width:100%;background:#F7F5F0;border:1px solid #E2DDD2;border-radius:10px;padding:9px 10px;font-size:13px;font-family:inherit;outline:0}
-.chp{background:#E8F3EE;color:#1B4332;font-size:11px;font-weight:700;padding:5px 10px;border-radius:99px;margin:0 4px 6px 0}
-.sg{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:10px 0}
-.sb{background:#F7F5F0;border-radius:12px;padding:8px;text-align:center;font-size:11px}
-.wb{background:#FAF8F5;border-left:3px solid #1B4332;padding:8px 10px;margin-bottom:8px;font-size:12px;line-height:1.5}
-.aiw{display:none;position:fixed;bottom:126px;right:14px;left:14px;max-width:370px;margin-left:auto;height:380px;background:#fff;border-radius:22px;box-shadow:0 8px 26px rgba(0,0,0,.22);border:1px solid #E2DDD2;z-index:45;flex-direction:column;overflow:hidden}
-.aih{background:#1B4332;color:#fff;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;font-size:13px;font-weight:700}
-.aib{flex:1;padding:10px;overflow-y:auto;background:#FAF8F5;font-size:12px;line-height:1.5}
-.am{background:#fff;padding:8px 10px;border-radius:14px;margin-bottom:8px;border:1px solid #EAE6DC;white-space:pre-wrap}
-.am.me{background:#1B4332;color:#fff;margin-left:28px;border:0}
-.aif{padding:8px;background:#fff;border-top:1px solid #EAE6DC;display:flex;gap:6px}
-.aif input{flex:1;background:#F7F5F0;border:0;border-radius:99px;padding:7px 12px;font-size:12px;outline:0}
-#tst{display:none;position:fixed;top:68px;left:50%;transform:translateX(-50%);background:#1B4332;color:#fff;font-size:12px;font-weight:700;padding:8px 16px;border-radius:99px;z-index:60;white-space:nowrap}
+.cb{background:#fff;border:1px solid #E6E2D8;padding:5px 12px;border-radius:99px;font-size:12px;white-space:nowrap}
+.cb.on{background:#1B4332;color:#fff;font-weight:700}
+main{max-width:900px;margin:0 auto;padding:14px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+.card{background:#fff;border-radius:18px;overflow:hidden;border:1px solid #EAE6DC}
+.cimg{position:relative;height:165px;background:#EAE6DC}
+.cimg img{width:100%;height:100%;object-fit:cover}
+.ctag{position:absolute;top:10px;left:10px;background:#fff;color:#1B4332;font-size:11px;font-weight:700;padding:3px 9px;border-radius:99px}
+.ctit{position:absolute;bottom:0;inset-x:0;background:linear-gradient(transparent,rgba(0,0,0,.75));color:#fff;padding:18px 12px 10px}
+.cbd{padding:12px}
+.cac{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:10px}
+.ab{padding:8px 0;border-radius:10px;font-size:12px;font-weight:700}
+nav{position:fixed;bottom:0;inset-x:0;background:#fff;border-top:1px solid #E6E2D8;display:flex;justify-content:space-around;padding:8px 0}
+.nb{background:none;font-size:12px;color:#8C918D;font-weight:700}
+.nb.on{color:#1B4332}
+.mod{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:50;align-items:center;justify-content:center;padding:16px}
+.mc{background:#fff;border-radius:20px;width:100%;max-width:400px;padding:18px;max-height:85vh;overflow-y:auto}
+.fld{margin-bottom:10px;font-size:12px}
+.fld input,.fld select,.fld textarea{width:100%;background:#F7F5F0;border:1px solid #E2DDD2;border-radius:10px;padding:8px;margin-top:4px;font-size:13px}
+#tst{display:none;position:fixed;top:65px;left:50%;transform:translateX(-50%);background:#1B4332;color:#fff;font-size:12px;padding:8px 16px;border-radius:99px;z-index:60}
 </style>
 </head>
 <body>
 <header>
-  <div class="row"><h1>🌿 植誌 BOTANICA</h1><div class="row"><button type="button" class="b-ico" onclick="oMod('m-set')">⚙️</button><button type="button" class="b-pri" onclick="oAdd()">＋ 收錄植物</button></div></div>
-  <div class="sub">跨領域植物圖鑑・深度百科與養護手札</div>
-  <div class="row"><span class="pill">總收錄 <b id="s1">0</b></span><span class="pill warn">待補水 <b id="s2">0</b></span><input id="q" class="q" oninput="ren()" placeholder="搜尋植物或介質..."></div>
+  <div class="row" style="margin-bottom:8px"><h1>🌿 植誌 BOTANICA</h1><div class="row"><button class="b2" onclick="oM('m-set')">⚙️</button><button class="b1" onclick="oAdd()">＋ 收錄植物</button></div></div>
+  <div class="row"><span class="pill">總收錄 <b id="s1">0</b></span><span class="pill" style="background:#FFF4E5;color:#9C5700">待補水 <b id="s2">0</b></span><input id="q" class="q" oninput="ren()" placeholder="搜尋植物..."></div>
   <div id="cats" class="cats"></div>
 </header>
 <main>
   <section id="v1"><div id="grid" class="grid"></div></section>
-  <section id="v2" style="display:none"><div class="lbox"><div class="row" style="margin-bottom:12px"><b style="color:#1B4332">📖 即時養護日誌</b><span style="font-size:11px;color:#6B706C">共 <b id="s3">0</b> 筆</span></div><div id="logs"></div></div></section>
+  <section id="v2" style="display:none;background:#fff;border-radius:18px;padding:14px"><div id="logs"></div></section>
 </main>
 <div id="tst"></div>
-<button type="button" class="fab" onclick="tAI()">✨</button>
-<nav><button type="button" id="n1" class="nb on" onclick="go('v1')"><span>🪴</span>植物圖鑑</button><button type="button" id="n2" class="nb" onclick="go('v2')"><span>📖</span>即時日誌</button></nav>
-
-<div id="m-det" class="mod"><div class="mc">
-  <div class="mh"><div><span id="dc" style="font-size:11px;color:#2D6A4F;font-weight:700"></span><h3 id="dn" style="font-size:18px;color:#1B4332"></h3><p id="dl" style="font-size:11px;color:#6B706C;font-style:italic"></p></div><button type="button" class="b-ico" onclick="cMod('m-det')">✕</button></div>
-  <img id="di" src="" style="width:100%;height:175px;object-fit:cover;border-radius:14px">
-  <div class="sg"><div class="sb">☀️ 光照<br><b id="d1" style="color:#1B4332"></b></div><div class="sb">💦 濕度<br><b id="d2" style="color:#1B4332"></b></div><div class="sb">💧 週期<br><b id="d3" style="color:#1B4332"></b></div></div>
-  <div class="wb"><b style="color:#1B4332">🌍 原生棲地與習性：</b><span id="d4"></span></div>
-  <div class="wb"><b style="color:#1B4332">🪴 專屬介質配方：</b><span id="d5"></span></div>
-  <div class="wb"><b style="color:#1B4332">⚠️ 養護關鍵與禁忌：</b><span id="d6"></span></div>
-  <div class="c-ac"><button type="button" class="ab aw" onclick="dAct('w')">💧 澆水</button><button type="button" class="ab af" onclick="dAct('f')">🧪 施肥</button><button type="button" class="ab an" onclick="dAct('n')">📝 筆記</button></div>
-</div></div>
-
-<div id="m-add" class="mod"><div class="mc">
-  <div class="mh"><h3 id="mt" style="color:#1B4332">收錄新植物</h3><button type="button" class="b-ico" onclick="cMod('m-add')">✕</button></div>
-  <input type="hidden" id="fid">
-  <div class="fld"><label>植物名稱 *</label><input id="fn" placeholder="例如：女王鹿角蕨、神聖乳香"></div>
-  <div class="fld"><label>學名（選填）</label><input id="fl" placeholder="Platycerium wandae"></div>
-  <div class="fld"><label>所屬領域</label><select id="fc"><option>附生鹿角蕨</option><option>橄欖科植物</option><option>雨林觀葉</option><option>塊根植物</option><option>食蟲植物</option><option>沙漠多肉</option><option>蘭科植物</option></select></div>
-  <div class="row"><div class="fld" style="flex:1"><label>澆水週期(天)</label><input type="number" id="fd" value="5"></div><div class="fld" style="flex:1"><label>光照需求</label><input id="flg" value="明亮散射光"></div></div>
-  <div class="fld"><label>專屬介質配方</label><input id="fs" placeholder="例如：智利水苔 80% + 樹皮 20%"></div>
-水週期 (天)</label><input type="number" id="f-day" value="5" min="1" max="90" /></div>
-    <div class="field"><label>上傳實拍照片 或 貼上圖片網址</label>
-      <input type="file" id="f-file" accept="image/*" style="margin-bottom:6px" />
-      <input type="url" id="f-url" placeholder="https://..." />
-    </div>
-    <div class="field"><label>養護手札</label><textarea id="f-note" rows="2" placeholder="記錄光照、濕度與介質..."></textarea></div>
-    <button type="button" class="btn-primary" style="width:100%;height:42px;font-size:14px" data-cmd="save-plant">儲存至圖鑑</button>
-  </div>
-</div>
-
-<div id="m-set" class="modal">
-  <div class="modal-card">
-    <div class="modal-head"><h3>設定與備份</h3><button type="button" class="btn-icon" data-cmd="close-set">✕</button></div>
-    <div class="field"><label>Google Gemini API Key（選填）</label><input type="password" id="s-key" placeholder="AIzaSy..." /></div>
-    <button type="button" class="btn-primary" style="width:100%;margin-bottom:12px" data-cmd="save-key">儲存金鑰</button>
-    <div style="display:flex;gap:8px">
-      <button type="button" class="act-btn act-n" style="flex:1" data-cmd="export-json">⬇️ 匯出備份</button>
-      <button type="button" class="act-btn b-over" style="flex:1" data-cmd="reset-all">🔄 重置範例</button>
-    </div>
-  </div>
-</div>
-
+<nav><button id="n1" class="nb on" onclick="go('v1')">🪴 植物圖鑑</button><button id="n2" class="nb" onclick="go('v2')">📖 即時日誌 (<span id="s3">0</span>)</button></nav>
+<div id="m-det" class="mod"><div class="mc"><div class="row"><h3 id="dn" style="color:#1B4332"></h3><button class="b2" onclick="cM('m-det')">✕</button></div><p id="dl" style="font-size:11px;color:#666;margin:4px 0 8px"></p><img id="di" style="width:100%;height:160px;object-fit:cover;border-radius:12px"><p id="d1" style="font-size:12px;margin:8px 0;line-height:1.5"></p><p id="d2" style="font-size:12px;background:#F7F5F0;padding:8px;border-radius:10px;line-height:1.5"></p><p id="d3" style="font-size:12px;margin-top:8px;line-height:1.5"></p></div></div>
+<div id="m-add" class="mod"><div class="mc"><div class="row" style="margin-bottom:10px"><h3 id="mt" style="color:#1B4332">收錄植物</h3><button class="b2" onclick="cM('m-add')">✕</button></div><input type="hidden" id="fid"><div class="fld">名稱*<input id="fn"></div><div class="fld">領域<select id="fc"><option>附生鹿角蕨</option><option>橄欖科植物</option><option>雨林觀葉</option><option>塊根植物</option><option>食蟲植物</option><option>沙漠多肉</option><option>蘭科植物</option></select></div><div class="fld">澆水週期(天)<input type="number" id="fd" value="5"></div><div class="fld">介質配方<input id="fs" placeholder="水苔、顆粒土..."></div><div class="fld">養護手札<textarea id="fnt" rows="2"></textarea></div><button class="b1" style="width:100%" onclick="savP()">儲存</button></div></div>
+<div id="m-act" class="mod"><div class="mc"><div class="row" style="margin-bottom:10px"><h3 id="at" style="color:#1B4332"></h3><button class="b2" onclick="cM('m-act')">✕</button></div><div class="fld"><input id="ai" placeholder="輸入紀錄內容..."></div><button class="b1" style="width:100%" onclick="subA()">確認寫入</button></div></div>
+<div id="m-set" class="mod"><div class="mc"><div class="row" style="margin-bottom:10px"><h3 style="color:#1B4332">設定</h3><button class="b2" onclick="cM('m-set')">✕</button></div><button class="b1" style="width:100%;background:#B91C1C" onclick="rstA()">🔄 重置 9 株預設百科</button></div></div>
 <script>
-var INIT_P = [
-  { id:'p1', name:'二叉鹿角蕨', latin:'Platycerium bifurcatum', cat:'附生鹿角蕨', day:5, last:Date.now()-5*864e5, img:'https://unsplash.com', note:'上板栽培，水苔變輕變乾時整板泡水15分鐘，保持通風。' },
-  { id:'p2', name:'女王鹿角蕨', latin:'Platycerium wandae', cat:'附生鹿角蕨', day:4, last:Date.now()-2*864e5, img:'https://unsplash.com', note:'大型附生種，喜歡溫暖高濕與明亮散射光，避免營養葉積水。' },
-  { id:'p3', name:'神聖乳香', latin:'Boswellia sacra', cat:'橄欖科植物', day:8, last:Date.now()-6*864e5, img:'https://unsplash.com', note:'橄欖科經典芳香樹脂樹種，高比例顆粒土與充足日照，冬季減水。' },
-  { id:'p4', name:'索馬利亞沒藥', latin:'Commiphora myrrha', cat:'橄欖科植物', day:9, last:Date.now()-4*864e5, img:'https://unsplash.com', note:'橄欖科旱生灌木，枝幹具獨特香氣；盆土乾透再澆透。' },
-  { id:'p5', name:'白錦龜背竹', latin:'Monstera Albo', cat:'雨林觀葉', day:4, last:Date.now()-4*864e5, img:'https://unsplash.com', note:'明亮散射光，空氣濕度維持60%以上，樹皮椰塊疏水介質。' },
-  { id:'p6', name:'象牙宮', latin:'Pachypodium gracilius', cat:'塊根植物', day:10, last:Date.now()-7*864e5, img:'https://unsplash.com', note:'全日照通風，生長期乾透澆透，冬季落葉休眠期嚴格斷水。' },
-  { id:'p7', name:'蘋果豬籠草', latin:'Nepenthes ampullaria', cat:'食蟲植物', day:2, last:Date.now()-2*864e5, img:'https://unsplash.com', note:'使用低TDS純水或雨水，水苔保持微濕不積水。' },
-  { id:'p8', name:'生石花', latin:'Lithops', cat:'沙漠多肉', day:14, last:Date.now()-10*864e5, img:'https://unsplash.com', note:'高比例顆粒土，春季蛻皮期完全不可澆水。' },
-  { id:'p9', name:'蝴蝶蘭', latin:'Phalaenopsis', cat:'蘭科植物', day:7, last:Date.now()-5*864e5, img:'https://unsplash.com', note:'氣生根由綠轉銀白色再澆水，避開葉心積水。' }
+var D0=[
+  {id:'p1',name:'二叉鹿角蕨',latin:'Platycerium bifurcatum',cat:'附生鹿角蕨',day:5,last:Date.now()-432e6,img:'https://unsplash.com。',sl:'智利水苔85%+樹皮15%（上板）。',nt:'水苔變輕乾時整板泡水15分鐘，保持通風。'},
+  {id:'p2',name:'女王鹿角蕨',latin:'Platycerium wandae',cat:'附生鹿角蕨',day:4,last:Date.now()-1728e5,img:'https://unsplash.com。',sl:'透氣智利水苔包椰塊。',nt:'喜溫暖高濕，避開營養葉積水。'},
+  {id:'p3',name:'神聖乳香',latin:'Boswellia sacra',cat:'橄欖科植物',day:8,last:Date.now()-5184e5,img:'https://unsplash.com。',sl:'赤玉40%+鹿沼20%+火山岩30%+泥炭10%。',nt:'生長期盆土全乾再澆透；冬季低溫斷水。'},
+  {id:'p4',name:'索馬利亞沒藥',latin:'Commiphora myrrha',cat:'橄欖科植物',day:9,last:Date.now()-3456e5,img:'https://unsplash.com，具辛香樹脂。',sl:'純顆粒疏水介質85%+腐葉土15%。',nt:'極耐旱怕積水，生長期施極薄液肥即可。'},
+  {id:'p5',name:'白錦龜背竹',latin:'Monstera Albo',cat:'雨林觀葉',day:4,last:Date.now()-3456e5,img:'https://unsplash.com。',sl:'樹皮40%+椰塊30%+珍珠岩20%+泥炭10%。',nt:'不可直曬烈日否則白斑焦邊；濕度60%以上。'},
+  {id:'p6',name:'象牙宮',latin:'Pachypodium gracilius',cat:'塊根植物',day:10,last:Date.now()-6048e5,img:'https://unsplash.com。',sl:'硬質赤玉50%+火山岩30%+植金石20%。',nt:'全日照極通風防徒長；冬季落葉嚴格斷水。'},
+  {id:'p7',name:'蘋果豬籠草',latin:'Nepenthes ampullaria',cat:'食蟲植物',day:2,last:Date.now()-1728e5,img:'https://unsplash.com。',sl:'純水苔60%+珍珠岩20%+椰塊20%（無肥）。',nt:'嚴禁自來水與化肥！務必用RO純水或雨水。'},
+  {id:'p8',name:'生石花',latin:'Lithops',cat:'沙漠多肉',day:14,last:Date.now()-864e6,img:'https://unsplash.com。',sl:'細赤玉40%+綠沸石30%+蛭石河沙30%。',nt:'春季舊葉蛻皮期完全不可澆水。'},
+  {id:'p9',name:'蝴蝶蘭',latin:'Phalaenopsis',cat:'蘭科植物',day:7,last:Date.now()-432e6,img:'https://unsplash.com。',sl:'純智利水苔或中粗樹皮。',nt:'氣生根由綠轉銀白再澆水，切忌葉心積水。'}
 ];
-var INIT_L = [
-  { id:'l1', t:Date.now()-72e5, p:'二叉鹿角蕨', a:'💧 完成泡水補給', n:'水苔已吸飽水，狀態健康' },
-  { id:'l2', t:Date.now()-864e5, p:'神聖乳香', a:'📝 狀態觀察紀錄', n:'日照充足，新枝葉散發淡雅樹脂香氣' }
-];
-var P = JSON.parse(localStorage.getItem('bp_v2') || 'null') || INIT_P;
-var L = JSON.parse(localStorage.getItem('bl_v2') || 'null') || INIT_L;
-var curCat = '全部', tmpImg = '';
-
-function sync() {
-  try { localStorage.setItem('bp_v2', JSON.stringify(P)); localStorage.setItem('bl_v2', JSON.stringify(L)); } catch(e) {}
-  document.getElementById('st-total').textContent = P.length;
-  document.getElementById('st-due').textContent = P.filter(function(x){ return Math.ceil((x.last + x.day*864e5 - Date.now())/864e5) <= 0; }).length;
-}
-function toast(m) {
-  var t = document.getElementById('toast'); t.textContent = m; t.style.display = 'block';
-  setTimeout(function(){ t.style.display = 'none'; }, 2000);
-}
-function render() {
-  var cats = ['全部'];
-  P.forEach(function(x){ if(cats.indexOf(x.cat)===-1) cats.push(x.cat); });
-  document.getElementById('cats').innerHTML = cats.map(function(c){
-    return '<button type="button" class="cat-btn'+(curCat===c?' active':'')+'" data-cat="'+c+'">'+c+'</button>';
-  }).join('');
-  var q = document.getElementById('q').value.toLowerCase();
-  var list = P.filter(function(x){ return (curCat==='全部'||x.cat===curCat) && (x.name.toLowerCase().indexOf(q)!==-1 || (x.note||'').toLowerCase().indexOf(q)!==-1); });
-  var fb = 'https://unsplash.com';
-  document.getElementById('grid').innerHTML = list.map(function(x){
-    var left = Math.ceil((x.last + x.day*864e5 - Date.now())/864e5);
-    var b = left<0 ? '<span class="badge b-over">逾期 '+Math.abs(left)+' 天</span>' : left===0 ? '<span class="badge b-due">今日需補水</span>' : '<span class="badge b-ok">'+left+' 天後澆水</span>';
-    return '<div class="card"><div class="card-img-wrap"><img src="'+(x.img||fb)+'" onerror="this.src=\''+fb+'\'" /><div class="card-overlay"></div><span class="card-tag">'+x.cat+'</span><div class="card-tools"><button type="button" class="tool-btn" data-edit="'+x.id+'">✏️</button><button type="button" class="tool-btn" data-del="'+x.id+'">🗑️</button></div><div class="card-title"><h3>'+x.name+'</h3>'+(x.latin?'<p>'+x.latin+'</p>':'')+'</div></div><div class="card-body"><div class="card-meta"><span>每 '+x.day+' 天補水</span>'+b+'</div><p class="card-notes">'+(x.note||'尚無手札')+'</p><div class="card-actions"><button type="button" class="act-btn act-w" data-act="w" data-id="'+x.id+'">💧 澆水</button><button type="button" class="act-btn act-f" data-act="f" data-id="'+x.id+'">🧪 施肥</button><button type="button" class="act-btn act-n" data-act="n" data-id="'+x.id+'">📝 筆記</button></div></div></div>';
-  }).join('');
-  document.getElementById('logs').innerHTML = L.map(function(l){
-    var d = new Date(l.t), ts = (d.getMonth()+1)+'/'+d.getDate()+' '+('0'+d.getHours()).slice(-2)+':'+('0'+d.getMinutes()).slice(-2);
-    return '<div class="log-item"><div class="log-head"><span>'+l.p+'</span><span class="log-time">'+ts+'</span></div><div class="log-act">'+l.a+'</div>'+(l.n?'<div class="log-note">'+l.n+'</div>':'')+'</div>';
-  }).join('');
-  sync();
-}
-
-document.getElementById('q').addEventListener('input', render);
-document.getElementById('f-file').addEventListener('change', function(e){
-  var f = e.target.files && e.target.files.item(0); if(!f) return;
-  var r = new FileReader();
-  r.onload = function(ev){
-    var im = new Image();
-    im.onload = function(){
-      var c = document.createElement('canvas'), s = Math.min(1, 500/im.width);
-      c.width = im.width*s; c.height = im.height*s;
-      c.getContext('2d').drawImage(im,0,0,c.width,c.height);
-      tmpImg = c.toDataURL('image/jpeg',0.7);
-      toast('📸 照片已載入');
-    };
-    im.src = ev.target.result;
-  };
-  r.readAsDataURL(f);
-});
-
-document.addEventListener('click', function(e) {
-  var btn = e.target.closest('button');
-  if (!btn) return;
-  var cmd = btn.getAttribute('data-cmd');
-  if (cmd === 'open-set') { document.getElementById('s-key').value=localStorage.getItem('g_key')||''; document.getElementById('m-set').style.display='flex'; }
-  else if (cmd === 'close-set') { document.getElementById('m-set').style.display='none'; }
-  else if (cmd === 'open-add') { document.getElementById('m-title').textContent='收錄新植物'; document.getElementById('f-id').value=''; document.getElementById('f-name').value=''; document.getElementById('f-url').value=''; document.getElementById('f-note').value=''; tmpImg=''; document.getElementById('m-plant').style.display='flex'; }
-  else if (cmd === 'close-add') { document.getElementById('m-plant').style.display='none'; }
-  else if (cmd === 'tab-dex') { document.getElementById('sec-dex').style.display='block'; document.getElementById('sec-logs').style.display='none'; document.getElementById('nb-dex').className='nav-btn active'; document.getElementById('nb-logs').className='nav-btn'; }
-  else if (cmd === 'tab-logs') { document.getElementById('sec-dex').style.display='none'; document.getElementById('sec-logs').style.display='block'; document.getElementById('nb-logs').className='nav-btn active'; document.getElementById('nb-dex').className='nav-btn'; }
-  else if (cmd === 'toggle-ai') { var w=document.getElementById('ai-win'); w.style.display = w.style.display==='flex' ? 'none' : 'flex'; }
-  else if (cmd === 'save-key') { localStorage.setItem('g_key', document.getElementById('s-key').value.trim()); document.getElementById('m-set').style.display='none'; toast('🔑 已儲存'); }
-  else if (cmd === 'export-json') { var a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([JSON.stringify({P:P,L:L})],{type:'application/json'})); a.download='botanica.json'; a.click(); }
-  else if (cmd === 'reset-all') { if(confirm('確定重置為9株預設圖鑑？')){ localStorage.removeItem('bp_v2'); localStorage.removeItem('bl_v2'); location.reload(); } }
-  else if (cmd === 'save-plant') {
-    var name = document.getElementById('f-name').value.trim(); if(!name){ alert('請輸入植物名稱'); return; }
-    var id = document.getElementById('f-id').value, cat = document.getElementById('f-cat').value, day = parseInt(document.getElementById('f-day').value,10)||5;
-    var img = tmpImg || document.getElementById('f-url').value.trim() || 'https://unsplash.com';
-    var note = document.getElementById('f-note').value.trim();
-    if(id){ var x = P.find(function(i){ return i.id===id; }); if(x){ x.name=name; x.cat=cat; x.day=day; x.img=img; x.note=note; } toast('✅ 已更新'); }
-<script>
-var D0 = [
-  {id:'p1', name:'二叉鹿角蕨', latin:'Platycerium bifurcatum', cat:'附生鹿角蕨', day:5, last:Date.now()-432000000, img:'https://unsplash.com', lg:'明亮散射光', hm:'60-75%', or:'澳洲東部雨林樹幹附生，適應力最強。', sl:'智利水苔85%+樹皮15%（上板）。', nt:'水苔變輕乾時整板泡水15分鐘，保持通風防黑腐。'},
-  {id:'p2', name:'女王鹿角蕨', latin:'Platycerium wandae', cat:'附生鹿角蕨', day:4, last:Date.now()-172800000, img:'https://unsplash.com', lg:'柔和散射光', hm:'70-85%', or:'新幾內亞低地雨林王者級大型鹿角蕨。', sl:'透氣智利水苔包椰塊，芽點勿壓太緊。', nt:'喜溫暖高濕，避開營養葉內積水，冬季低於15度減水。'},
-  {id:'p3', name:'神聖乳香', latin:'Boswellia sacra', cat:'橄欖科植物', day:8, last:Date.now()-518400000, img:'https://unsplash.com', lg:'全日照強光', hm:'30-50%', or:'阿曼葉門乾旱石灰岩坡地頂級乳香樹種。', sl:'赤玉40%+鹿沼20%+火山岩30%+泥炭10%。', nt:'生長期盆土全乾再澆透；冬季低溫落葉期幾乎斷水。'},
-  {id:'p4', name:'索馬利亞沒藥', latin:'Commiphora myrrha', cat:'橄欖科植物', day:9, last:Date.now()-345600000, img:'https://unsplash.com', lg:'全日照強光', hm:'30-45%', or:'非洲之角乾燥灌木叢，枝幹具辛香樹脂。', sl:'純顆粒疏水介質85%+腐葉土15%。', nt:'極度耐旱怕積水，春夏生長期偶爾施極淡薄液肥即可。'},
-  {id:'p5', name:'白錦龜背竹', latin:'Monstera Albo', cat:'雨林觀葉', day:4, last:Date.now()-345600000, img:'https://unsplash.com', lg:'明亮散射光', hm:'65-80%', or:'中南美雨林攀緣植物，白斑葉片較嬌貴。', sl:'樹皮40%+椰塊30%+珍珠岩20%+泥炭10%。', nt:'不可直曬烈日否則白斑焦邊；濕度維持60%以上。'},
-  {id:'p6', name:'象牙宮', latin:'Pachypodium gracilius', cat:'塊根植物', day:10, last:Date.now()-604800000, img:'https://unsplash.com', lg:'全日照通風', hm:'30-50%', or:'馬達加斯加花崗岩山坡，圓胖塊根儲水。', sl:'硬質赤玉50%+火山岩30%+植金石20%。', nt:'陽光充足極通風防徒長；冬季落葉休眠嚴格斷水。'},
-  {id:'p7', name:'蘋果豬籠草', latin:'Nepenthes ampullaria', cat:'食蟲植物', day:2, last:Date.now()-172800000, img:'https://unsplash.com', lg:'半日照散射', hm:'75-90%', or:'婆羅洲低地沼澤森林，地面群生圓胖捕蟲籠。', sl:'純水苔60%+珍珠岩20%+椰塊20%（無肥）。', nt:'嚴禁自來水與化肥！務必用RO純水或雨水保持微濕。'},
-  {id:'p8', name:'生石花', latin:'Lithops', cat:'沙漠多肉', day:14, last:Date.now()-864000000, img:'https://unsplash.com', lg:'充足日照', hm:'25-45%', or:'南非乾旱礫石荒漠，擬態成石頭防啃食。', sl:'細赤玉40%+綠沸石30%+蛭石河沙30%。', nt:'春季舊葉蛻皮期完全不可澆水，等舊皮乾枯再給水。'},
-  {id:'p9', name:'蝴蝶蘭', latin:'Phalaenopsis', cat:'蘭科植物', day:7, last:Date.now()-432000000, img:'https://unsplash.com', lg:'柔和散射光', hm:'60-75%', or:'亞洲熱帶雨林樹幹附生蘭科，氣生根需透氣。', sl:'純智利水苔 或 中粗樹皮配透明透氣盆。', nt:'氣生根由綠轉銀白色再澆水，切忌葉心積水。'}
-];
-var L0 = [
-  {id:'l1', t:Date.now()-7200000, p:'二叉鹿角蕨', a:'💧 完成泡水補給', n:'水苔已吸飽水，通風處瀝乾中'},
-  {id:'l2', t:Date.now()-86400000, p:'神聖乳香', a:'📝 狀態觀察紀錄', n:'日照充足，新枝葉散發淡雅香氣'}
-];
-var P = JSON.parse(localStorage.getItem('bp6') || 'null') || D0;
-var L = JSON.parse(localStorage.getItem('bl6') || 'null') || L0;
-var cc = '全部', ti = '', aid = '';
-function fP(id) { for (var i = 0; i < P.length; i++) if (P.at(i).id === id) return P.at(i); return null; }
-function tst(m) { var t = document.getElementById('tst'); t.textContent = m; t.style.display = 'block'; setTimeout(function(){ t.style.display = 'none'; }, 2000); }
-function oMod(id) { document.getElementById(id).style.display = 'flex'; }
-function cMod(id) { document.getElementById(id).style.display = 'none'; }
-function go(v) {
-  document.getElementById('v1').style.display = v === 'v1' ? 'block' : 'none';
-  document.getElementById('v2').style.display = v === 'v2' ? 'block' : 'none';
-  document.getElementById('n1').className = 'nb' + (v === 'v1' ? ' on' : '');
-  document.getElementById('n2').className = 'nb' + (v === 'v2' ? ' on' : '');
-}
-function sCat(c) { cc = c; ren(); }
-function ren() {
-  try { localStorage.setItem('bp6', JSON.stringify(P)); localStorage.setItem('bl6', JSON.stringify(L)); } catch(e) {}
-  document.getElementById('s1').textContent = P.length;
-  document.getElementById('s3').textContent = L.length;
-  var due = 0, cs = ['全部'], fb = 'https://unsplash.com';
-  var q = document.getElementById('q').value.toLowerCase(), gh = '', lh = '';
-  for (var i = 0; i < P.length; i++) {
-    var x = P.at(i);
-    if (cs.indexOf(x.cat) === -1) cs.push(x.cat);
-    var lf = Math.ceil((x.last + x.day * 86400000 - Date.now()) / 86400000);
-    if (lf <= 0) due++;
-    if ((cc !== '全部' && x.cat !== cc) || (x.name + (x.latin||'') + (x.sl||'') + (x.nt||'')).toLowerCase().indexOf(q) === -1) continue;
-    var b = lf < 0 ? '<span class="bdg ov">逾期' + Math.abs(lf) + '天</span>' : lf === 0 ? '<span class="bdg due">今日補水</span>' : '<span class="bdg ok">' + lf + '天後澆水</span>';
-    gh += '<div class="card"><div class="c-img" onclick="oDet(\'' + x.id + '\')"><img src="' + (x.img||fb) + '" onerror="this.src=\'' + fb + '\'"><div class="c-ov"></div><span class="c-tag">' + x.cat + '</span><span class="c-more">點看百科〉</span><div class="c-tls" onclick="event.stopPropagation()"><button type="button" class="t-btn" onclick="eP(\'' + x.id + '\')">✏️</button><button type="button" class="t-btn" onclick="aD(\'' + x.id + '\')">🗑️</button></div><div class="c-tit"><h3>' + x.name + '</h3>' + (x.latin ? '<p>' + x.latin + '</p>' : '') + '</div></div><div class="c-bd"><div class="c-mt"><span>每' + x.day + '天</span>' + b + '</div><p class="c-nt">' + (x.nt||'點圖片看百科') + '</p><div class="c-ac"><button type="button" class="ab aw" onclick="doW(\'' + x.id + '\')">💧 澆水</button><button type="button" class="ab af" onclick="oF(\'' + x.id + '\')">🧪 施肥</button><button type="button" class="ab an" onclick="oN(\'' + x.id + '\')">📝 筆記</button></div></div></div>';
+var P=JSON.parse(localStorage.getItem('bp7')||'null')||D0,L=JSON.parse(localStorage.getItem('bl7')||'null')||[],cc='全部',aid='',atp='';
+function fP(id){for(var i=0;i<P.length;i++)if(P.at(i).id===id)return P.at(i);return null}
+function tst(m){var t=document.getElementById('tst');t.textContent=m;t.style.display='block';setTimeout(function(){t.style.display='none'},1800)}
+function oM(id){document.getElementById(id).style.display='flex'}
+function cM(id){document.getElementById(id).style.display='none'}
+function go(v){document.getElementById('v1').style.display=v==='v1'?'block':'none';document.getElementById('v2').style.display=v==='v2'?'block':'none';document.getElementById('n1').className='nb'+(v==='v1'?' on':'');document.getElementById('n2').className='nb'+(v==='v2'?' on':'')}
+function ren(){
+  try{localStorage.setItem('bp7',JSON.stringify(P));localStorage.setItem('bl7',JSON.stringify(L))}catch(e){}
+  document.getElementById('s1').textContent=P.length;document.getElementById('s3').textContent=L.length;
+  var due=0,cs=['全部'],q=document.getElementById('q').value.toLowerCase(),gh='',lh='';
+  for(var i=0;i<P.length;i++){
+    var x=P.at(i);if(cs.indexOf(x.cat)===-1)cs.push(x.cat);
+    var lf=Math.ceil((x.last+x.day*864e5-Date.now())/864e5);if(lf<=0)due++;
+    if((cc!=='全部'&&x.cat!==cc)||(x.name+(x.sl||'')+(x.nt||'')).toLowerCase().indexOf(q)===-1)continue;
+    var b=lf<=0?'<b style="color:#B91C1C">需補水</b>':'<b style="color:#1B4332">'+lf+'天後澆</b>';
+    gh+='<div class="card"><div class="cimg" onclick="oDet(\''+x.id+'\')"><img src="'+x.img+'"><span class="ctag">'+x.cat+'</span><div class="ctit"><h3>'+x.name+'</h3></div></div><div class="cbd"><div class="row" style="font-size:11px;margin-bottom:6px"><span>每'+x.day+'天</span>'+b+'</div><p style="font-size:12px;color:#4A4E4B">'+x.nt+'</p><div class="cac"><button class="ab" style="background:#EDF6F9;color:#006D77" onclick="doW(\''+x.id+'\')">💧 澆水</button><button class="ab" style="background:#FFF8EB;color:#B45309" onclick="oAct(\''+x.id+'\',\'f\')">🧪 施肥</button><button class="ab" style="background:#F4F2ED;color:#3A3F3B" onclick="oAct(\''+x.id+'\',\'n\')">📝 筆記</button></div></div></div>';
   }
-  document.getElementById('s2').textContent = due;
-  document.getElementById('cats').innerHTML = cs.map(function(c){ return '<button type="button" class="c-btn' + (cc === c ? ' on' : '') + '" onclick="sCat(\'' + c + '\')">' + c + '</button>'; }).join('');
-  document.getElementById('grid').innerHTML = gh || '<div style="grid-column:1/-1;text-align:center;padding:30px;background:#fff;border-radius:16px;font-size:12px">無符合植物</div>';
-  for (var j = 0; j < L.length; j++) {
-    var l = L.at(j), d = new Date(l.t);
-    lh += '<div class="li"><div class="lh"><span>' + l.p + '</span><span class="lt">' + (d.getMonth()+1) + '/' + d.getDate() + ' ' + ('0'+d.getHours()).slice(-2) + ':' + ('0'+d.getMinutes()).slice(-2) + '</span></div><div class="la">' + l.a + '</div>' + (l.n ? '<div class="ln">' + l.n + '</div>' : '') + '</div>';
-  }
-  document.getElementById('logs').innerHTML = lh;
+  document.getElementById('s2').textContent=due;
+  document.getElementById('cats').innerHTML=cs.map(function(c){return '<button class="cb'+(cc===c?' on':'')+'" onclick="cc=\''+c+'\';ren()">'+c+'</button>'}).join('');
+  document.getElementById('grid').innerHTML=gh;
+  for(var j=0;j<L.length;j++)lh+='<div style="border-left:3px solid #1B4332;padding-left:10px;margin-bottom:10px;font-size:12px"><b>'+L.at(j).p+'</b> ・ '+L.at(j).a+'<div style="color:#666">'+L.at(j).n+'</div></div>';
+  document.getElementById('logs').innerHTML=lh||'<p style="font-size:12px;color:#888;text-align:center">尚無紀錄</p>';
 }
-function oDet(id) {
-  var x = fP(id); if (!x) return; aid = id;
-  document.getElementById('dc').textContent = x.cat; document.getElementById('dn').textContent = x.name;
-  document.getElementById('dl').textContent = x.latin || '自訂品種'; document.getElementById('di').src = x.img;
-  document.getElementById('d1').textContent = x.lg || '散射光'; document.getElementById('d2').textContent = x.hm || '50-75%';
-  document.getElementById('d3').textContent = '每' + x.day + '天'; document.getElementById('d4').textContent = x.or || '個人收錄跨領域植物。';
-  document.getElementById('d5').textContent = x.sl || '疏水透氣介質。'; document.getElementById('d6').textContent = x.nt || '保持環境通風。';
-  oMod('m-det');
-}
-function dAct(t) { cMod('m-det'); if (t === 'w') doW(aid); else if (t === 'f') oF(aid); else oN(aid); }
-function doW(id) { var x = fP(id); if (!x) return; x.last = Date.now(); L.unshift({id:'l'+Date.now(), t:Date.now(), p:x.name, a:'💧 完成補水澆灌', n:'週期重置，預計'+x.day+'天後補水'}); ren(); tst('💧 已記錄「'+x.name+'」澆水！'); }
-function oF(id) { aid = id; oMod('m-frt'); }
-function subF() { var x = fP(aid); if (!x) return; L.unshift({id:'l'+Date.now(), t:Date.now(), p:x.name, a:'🧪 施加肥料補給', n:document.getElementById('fi').value}); cMod('m-frt'); ren(); tst('🧪 已記錄施肥！'); }
-function oN(id) { aid = id; document.getElementById('ni').value = ''; oMod('m-not'); }
-function subN() { var x = fP(aid), v = document.getElementById('ni').value.trim(); if (!x || !v) return tst('⚠️ 請輸入內容'); x.nt = v; L.unshift({id:'l'+Date.now(), t:Date.now(), p:x.name, a:'📝 更新觀察手札', n:v}); cMod('m-not'); ren(); tst('📝 筆記已更新！'); }
-function aD(id) { var x = fP(id); if (!x) return; aid = id; document.getElementById('dt').textContent = x.name; oMod('m-del'); }
-function cfmD() { P = P.filter(function(i){ return i.id !== aid; }); cMod('m-del'); ren(); tst('🗑️ 已移除'); }
-function pImg(e) {
-  var f = e.target.files && e.target.files.item(0); if (!f) return;
-  var r = new FileReader();
-  r.onload = function(ev) {
-    var im = new Image();
-    im.onload = function() {
-      var c = document.createElement('canvas'), s = Math.min(1, 450 / im.width);
-      c.width = im.width * s; c.height = im.height * s;
-      c.getContext('2d').drawImage(im, 0, 0, c.width, c.height);
-      ti = c.toDataURL('image/jpeg', 0.7); tst('📸 照片已載入');
-    };
-    im.src = ev.target.result;
-  };
-  r.readAsDataURL(f);
-}
-function oAdd() {
-  document.getElementById('mt').textContent = '收錄新植物'; document.getElementById('fid').value = '';
-  document.getElementById('fn').value = ''; document.getElementById('fl').value = '';
-  document.getElementById('fs').value = ''; document.getElementById('fu').value = '';
-  document.getElementById('fnt').value = ''; ti = ''; oMod('m-add');
-}
-function eP(id) {
-  var x = fP(id); if (!x) return;
-  document.getElementById('mt').textContent = '編輯植物'; document.getElementById('fid').value = x.id;
-  document.getElementById('fn').value = x.name; document.getElementById('fl').value = x.latin || '';
-  document.getElementById('fc').value = x.cat; document.getElementById('fd').value = x.day;
-  document.getElementById('flg').value = x.lg || ''; document.getElementById('fs').value = x.sl || '';
-  document.getElementById('fnt').value = x.nt || '';
-  ti = x.img && x.img.indexOf('data:') === 0 ? x.img : '';
-  document.getElementById('fu').value = ti ? '' : (x.img || '');
-  oMod('m-add');
-}
-function savP() {
-  var n = document.getElementById('fn').value.trim(); if (!n) return tst('⚠️ 請輸入名稱');
-  var id = document.getElementById('fid').value, img = ti || document.getElementById('fu').value.trim() || 'https://unsplash.com';
-  var obj = { name:n, latin:document.getElementById('fl').value.trim(), cat:document.getElementById('fc').value, day:parseInt(document.getElementById('fd').value)||5, lg:document.getElementById('flg').value, sl:document.getElementById('fs').value, img:img, nt:document.getElementById('fnt').value };
-  if (id) { var x = fP(id); if (x) Object.assign(x, obj); tst('✅ 已更新'); }
-  else { obj.id = 'p' + Date.now(); obj.last = Date.now(); P.unshift(obj); L.unshift({id:'l'+Date.now(), t:Date.now(), p:n, a:'🌱 收錄新植物', n:obj.cat}); cc = '全部'; tst('🌿 已收錄至圖鑑'); }
-  cMod('m-add'); go('v1'); ren();
-}
-function savK() { localStorage.setItem('gk', document.getElementById('sk').value.trim()); cMod('m-set'); tst('🔑 已儲存'); }
-function expJ() { var a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([JSON.stringify({P:P, L:L})], {type:'application/json'})); a.download = 'botanica.json'; a.click(); }
-function rstA() { localStorage.removeItem('bp6'); localStorage.removeItem('bl6'); P = JSON.parse(JSON.stringify(D0)); L = JSON.parse(JSON.stringify(L0)); cMod('m-set'); ren(); tst('🔄 已重置 9 株百科'); }
-function tAI() { var w = document.getElementById('aiw'); w.style.display = w.style.display === 'flex' ? 'none' : 'flex'; }
-function qChk() {
-  var b = document.getElementById('aim'), a = [];
-  for (var i = 0; i < P.length; i++) {
-    var lf = Math.ceil((P.at(i).last + P.at(i).day * 86400000 - Date.now()) / 86400000);
-    if (lf <= 0) a.push('• ' + P.at(i).name + '（' + (lf === 0 ? '今日補水' : '逾期' + Math.abs(lf) + '天') + '）');
-  }
-  b.innerHTML += '<div class="am">' + (a.length ? '💧 今日缺水名單：\n' + a.join('\n') : '✨ 目前所有植物水分充足！') + '</div>';
-  b.scrollTop = b.scrollHeight;
-}
-function ask() {
-  var i = document.getElementById('aii'), q = i.value.trim(), k = localStorage.getItem('gk'), b = document.getElementById('aim');
-  if (!q) return;
-  b.innerHTML += '<div class="am me">' + q + '</div>'; i.value = '';
-  if (!k) { b.innerHTML += '<div class="am">⚠️ 請先點 ⚙️ 填入 API Key</div>'; return; }
-  fetch('https://googleapis.com' + k, {
-    method:'POST', headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({contents:[{parts:[{text:'你是植物顧問，繁中簡答：' + q}]}]})
-  }).then(function(r){ return r.json(); }).then(function(d){
-    b.innerHTML += '<div class="am">' + ((d && d.candidates && d.candidates.at(0) && d.candidates.at(0).content.parts.at(0).text) || '連線失敗') + '</div>';
-    b.scrollTop = b.scrollHeight;
-  });
-}
+function oDet(id){var x=fP(id);if(!x)return;document.getElementById('dn').textContent=x.name+'（'+x.cat+'）';document.getElementById('dl').textContent=x.latin||'';document.getElementById('di').src=x.img;document.getElementById('d1').textContent='🌍 棲地：'+(x.or||'自訂收錄');document.getElementById('d2').textContent='🪴 介質：'+(x.sl||'疏水透氣介質');document.getElementById('d3').textContent='⚠️ 養護：'+x.nt;oM('m-det')}
+function doW(id){var x=fP(id);if(!x)return;x.last=Date.now();L.unshift({p:x.name,a:'💧 補水澆灌',n:'週期已重置'});ren();tst('💧 已記錄澆水')}
+function oAct(id,t){aid=id;atp=t;document.getElementById('at').textContent=t==='f'?'🧪 紀錄施肥':'📝 新增筆記';document.getElementById('ai').value=t==='f'?'稀釋液肥補充':'';oM('m-act')}
+function subA(){var x=fP(aid),v=document.getElementById('ai').value.trim();if(!x||!v)return;if(atp==='n')x.nt=v;L.unshift({p:x.name,a:atp==='f'?'🧪 施肥':'📝 筆記',n:v});cM('m-act');ren();tst('✅ 已寫入日誌')}
+function oAdd(){document.getElementById('fn').value='';document.getElementById('fs').value='';document.getElementById('fnt').value='';oM('m-add')}
+function savP(){var n=document.getElementById('fn').value.trim();if(!n)return tst('請輸入名稱');P.unshift({id:'p'+Date.now(),name:n,cat:document.getElementById('fc').value,day:parseInt(document.getElementById('fd').value)||5,last:Date.now(),img:'https://unsplash.com||'注意通風與給水'});cM('m-add');ren();tst('🌿 已收錄')}
+function rstA(){localStorage.removeItem('bp7');localStorage.removeItem('bl7');P=JSON.parse(JSON.stringify(D0));L=[];cM('m-set');ren();tst('🔄 已重置')}
 ren();
 </script>
 </body>
 </html>
-
