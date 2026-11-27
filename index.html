@@ -3,15 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<meta name="theme-color" content="#1B4332">
 <title>植誌 BOTANICA</title>
 <link rel="manifest" href="manifest.json">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:sans-serif;background:#F7F5F0;color:#2D312E;padding-bottom:85px}
+body{font-family:sans-serif;background:#F7F5F0;color:#2D312E;padding-bottom:80px}
 header{background:#F7F5F0;position:sticky;top:0;z-index:10;border-bottom:1px solid #E6E2D8;padding:12px 16px}
 .row{display:flex;justify-content:space-between;align-items:center;gap:8px}
-h1{font-size:18px;color:#1B4332}
 button{border:none;cursor:pointer;font-family:inherit}
 .b1{background:#1B4332;color:#fff;font-size:12px;font-weight:700;padding:8px 14px;border-radius:99px}
 .b2{background:#fff;border:1px solid #E2DDD2;width:34px;height:34px;border-radius:50%}
@@ -26,7 +24,7 @@ main{max-width:900px;margin:0 auto;padding:14px}
 .cimg{position:relative;height:165px;background:#EAE6DC;cursor:pointer}
 .cimg img{width:100%;height:100%;object-fit:cover}
 .ctag{position:absolute;top:10px;left:10px;background:#fff;color:#1B4332;font-size:11px;font-weight:700;padding:3px 9px;border-radius:99px}
-.ctit{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,.75));color:#fff;padding:18px 12px 10px}
+.ctit{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,.78));color:#fff;padding:18px 12px 10px}
 .cbd{padding:12px}
 .cac{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:10px}
 .ab{padding:8px 0;border-radius:10px;font-size:12px;font-weight:700}
@@ -42,7 +40,7 @@ nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid 
 </head>
 <body>
 <header>
-  <div class="row" style="margin-bottom:8px"><h1>🌿 植誌 BOTANICA</h1><div class="row"><button class="b2" onclick="oM('m-set')">⚙️</button><button class="b1" onclick="oAdd()">＋ 收錄植物</button></div></div>
+  <div class="row" style="margin-bottom:8px"><h1 style="font-size:18px;color:#1B4332">🌿 植誌 BOTANICA</h1><div class="row"><button class="b2" onclick="oM('m-set')">⚙️</button><button class="b1" onclick="oM('m-add')">＋ 收錄植物</button></div></div>
   <div class="row"><span class="pill">總收錄 <b id="s1">0</b></span><span class="pill" style="background:#FFF4E5;color:#9C5700">待補水 <b id="s2">0</b></span><input id="q" class="q" oninput="ren()" placeholder="搜尋植物..."></div>
   <div id="cats" class="cats"></div>
 </header>
@@ -52,94 +50,39 @@ nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid 
 </main>
 <div id="tst"></div>
 <nav><button id="n1" class="nb on" onclick="go('v1')">🪴 植物圖鑑</button><button id="n2" class="nb" onclick="go('v2')">📖 即時日誌 (<span id="s3">0</span>)</button></nav>
-<div id="m-det" class="mod"><div class="mc"><div class="row"><h3 id="dn" style="color:#1B4332"></h3><button class="b2" onclick="cM('m-det')">✕</button></div><p id="dl" style="font-size:11px;color:#666;margin:4px 0 8px"></p><img id="di" style="width:100%;height:160px;object-fit:cover;border-radius:12px"><p id="d1" style="font-size:12px;margin:8px 0;line-height:1.5"></p><p id="d2" style="font-size:12px;background:#F7F5F0;padding:8px;border-radius:10px;line-height:1.5"></p><p id="d3" style="font-size:12px;margin-top:8px;line-height:1.5"></p></div></div>
-<div id="m-add" class="mod"><div class="mc"><div class="row" style="margin-bottom:10px"><h3 id="mt" style="color:#1B4332">收錄植物</h3><button class="b2" onclick="cM('m-add')">✕</button></div><input type="hidden" id="fid"><div class="fld">名稱*<input id="fn"></div><div class="fld">領域<select id="fc"><option>附生鹿角蕨</option><option>橄欖科植物</option><option>雨林觀葉</option><option>塊根植物</option><option>食蟲植物</option><option>沙漠多肉</option><option>蘭科植物</option></select></div><div class="fld">澆水週期(天)<input type="number" id="fd" value="5"></div><div class="fld">介質配方<input id="fs" placeholder="水苔、顆粒土..."></div><div class="fld">養護手札<textarea id="fnt" rows="2"></textarea></div><button class="b1" style="width:100%" onclick="savP()">儲存</button></div></div>
+<div id="m-det" class="mod"><div class="mc"><div class="row"><h3 id="dn" style="color:#1B4332"></h3><button class="b2" onclick="cM('m-det')">✕</button></div><img id="di" style="width:100%;height:160px;object-fit:cover;border-radius:12px;margin:8px 0"><p id="d1" style="font-size:12px;margin-bottom:6px"></p><p id="d2" style="font-size:12px;background:#F7F5F0;padding:8px;border-radius:10px;margin-bottom:6px"></p><p id="d3" style="font-size:12px"></p></div></div>
+<div id="m-add" class="mod"><div class="mc"><div class="row" style="margin-bottom:10px"><h3 style="color:#1B4332">收錄植物</h3><button class="b2" onclick="cM('m-add')">✕</button></div><div class="fld">名稱*<input id="fn"></div><div class="fld">領域<select id="fc"><option>附生鹿角蕨</option><option>橄欖科植物</option><option>雨林觀葉</option><option>塊根植物</option><option>食蟲植物</option><option>沙漠多肉</option><option>蘭科植物</option></select></div><div class="fld">澆水週期(天)<input type="number" id="fd" value="5"></div><div class="fld">介質配方<input id="fs" placeholder="水苔、顆粒土..."></div><div class="fld">養護手札<textarea id="fnt" rows="2"></textarea></div><button class="b1" style="width:100%" onclick="savP()">儲存</button></div></div>
 <div id="m-act" class="mod"><div class="mc"><div class="row" style="margin-bottom:10px"><h3 id="at" style="color:#1B4332"></h3><button class="b2" onclick="cM('m-act')">✕</button></div><div class="fld"><input id="ai" placeholder="輸入紀錄內容..."></div><button class="b1" style="width:100%" onclick="subA()">確認寫入</button></div></div>
 <div id="m-set" class="mod"><div class="mc"><div class="row" style="margin-bottom:10px"><h3 style="color:#1B4332">設定</h3><button class="b2" onclick="cM('m-set')">✕</button></div><button class="b1" style="width:100%;background:#B91C1C" onclick="rstA()">🔄 重置 9 株預設百科</button></div></div>
 <script>
-if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js');}
 var D0=[
-  {id:'p1',name:'二叉鹿角蕨',latin:'Platycerium bifurcatum',cat:'附生鹿角蕨',day:5,last:Date.now()-432000000,img:'https://unsplash.com。',sl:'智利水苔85%+樹皮15%（上板）。',nt:'水苔變輕乾時整板泡水15分鐘，保持通風。'},
-  {id:'p2',name:'女王鹿角蕨',latin:'Platycerium wandae',cat:'附生鹿角蕨',day:4,last:Date.now()-172800000,img:'https://unsplash.com。',sl:'透氣智利水苔包椰塊。',nt:'喜溫暖高濕，避開營養葉積水。'},
-  {id:'p3',name:'神聖乳香',latin:'Boswellia sacra',cat:'橄欖科植物',day:8,last:Date.now()-518400000,img:'https://unsplash.com。',sl:'赤玉40%+鹿沼20%+火山岩30%+泥炭10%。',nt:'生長期盆土全乾再澆透；冬季低溫斷水。'},
-  {id:'p4',name:'索馬利亞沒藥',latin:'Commiphora myrrha',cat:'橄欖科植物',day:9,last:Date.now()-345600000,img:'https://unsplash.com，具辛香樹脂。',sl:'純顆粒疏水介質85%+腐葉土15%。',nt:'極耐旱怕積水，生長期施極薄液肥即可。'},
-  {id:'p5',name:'白錦龜背竹',latin:'Monstera Albo',cat:'雨林觀葉',day:4,last:Date.now()-345600000,img:'https://unsplash.com。',sl:'樹皮40%+椰塊30%+珍珠岩20%+泥炭10%。',nt:'不可直曬烈日否則白斑焦邊；濕度60%以上。'},
-  {id:'p6',name:'象牙宮',latin:'Pachypodium gracilius',cat:'塊根植物',day:10,last:Date.now()-604800000,img:'https://unsplash.com。',sl:'硬質赤玉50%+火山岩30%+植金石20%。',nt:'全日照極通風防徒長；冬季落葉嚴格斷水。'},
-  {id:'p7',name:'蘋果豬籠草',latin:'Nepenthes ampullaria',cat:'食蟲植物',day:2,last:Date.now()-172800000,img:'https://unsplash.com。',sl:'純水苔60%+珍珠岩20%+椰塊20%（無肥）。',nt:'嚴禁自來水與化肥！務必用RO純水或雨水。'},
-  {id:'p8',name:'生石花',latin:'Lithops',cat:'沙漠多肉',day:14,last:Date.now()-864000000,img:'https://unsplash.com。',sl:'細赤玉40%+綠沸石30%+蛭石河沙30%。',nt:'春季舊葉蛻皮期完全不可澆水。'},
-  {id:'p9',name:'蝴蝶蘭',latin:'Phalaenopsis',cat:'蘭科植物',day:7,last:Date.now()-432000000,img:'https://unsplash.com。',sl:'純智利水苔或中粗樹皮。',nt:'氣生根由綠轉銀白再澆水，切忌葉心積水。'}
+  {id:'p1',name:'二叉鹿角蕨',cat:'附生鹿角蕨',day:5,last:Date.now()-432000000,img:'https://unsplash.com。',sl:'智利水苔85%+樹皮15%（上板）。',nt:'水苔變輕乾時整板泡水15分鐘，保持通風。'},
+  {id:'p2',name:'女王鹿角蕨',cat:'附生鹿角蕨',day:4,last:Date.now()-172800000,img:'https://unsplash.com。',sl:'透氣智利水苔包椰塊。',nt:'喜溫暖高濕，避開營養葉積水。'},
+  {id:'p3',name:'神聖乳香',cat:'橄欖科植物',day:8,last:Date.now()-518400000,img:'https://unsplash.com。',sl:'赤玉40%+鹿沼20%+火山岩30%+泥炭10%。',nt:'生長期盆土全乾再澆透；冬季低溫斷水。'},
+  {id:'p4',name:'索馬利亞沒藥',cat:'橄欖科植物',day:9,last:Date.now()-345600000,img:'https://unsplash.com，具辛香樹脂。',sl:'純顆粒疏水介質85%+腐葉土15%。',nt:'極耐旱怕積水，生長期施極薄液肥即可。'},
+  {id:'p5',name:'白錦龜背竹',cat:'雨林觀葉',day:4,last:Date.now()-345600000,img:'https://unsplash.com。',sl:'樹皮40%+椰塊30%+珍珠岩20%+泥炭10%。',nt:'不可直曬烈日否則白斑焦邊；濕度60%以上。'},
+  {id:'p6',name:'象牙宮',cat:'塊根植物',day:10,last:Date.now()-604800000,img:'https://unsplash.com。',sl:'硬質赤玉50%+火山岩30%+植金石20%。',nt:'全日照極通風防徒長；冬季落葉嚴格斷水。'},
+  {id:'p7',name:'蘋果豬籠草',cat:'食蟲植物',day:2,last:Date.now()-172800000,img:'https://unsplash.com。',sl:'純水苔60%+珍珠岩20%+椰塊20%（無肥）。',nt:'嚴禁自來水與化肥！務必用RO純水或雨水。'},
+  {id:'p8',name:'生石花',cat:'沙漠多肉',day:14,last:Date.now()-864000000,img:'https://unsplash.com。',sl:'細赤玉40%+綠沸石30%+蛭石河沙30%。',nt:'春季舊葉蛻皮期完全不可澆水。'},
+  {id:'p9',name:'蝴蝶蘭',cat:'蘭科植物',day:7,last:Date.now()-432000000,img:'https://unsplash.com。',sl:'純智利水苔或中粗樹皮。',nt:'氣生根由綠轉銀白再澆水，切忌葉心積水。'}
 ];
-var P=JSON.parse(localStorage.getItem('bp8')||'null')||D0,L=JSON.parse(localStorage.getItem('bl8')||'null')||[],cc='全部',aid='',atp='';
-function fP(id){for(var i=0;i<P.length;i++){var item=P.slice(i,i+1).pop();if(item.id===id)return item;}return null;}
+var P=JSON.parse(localStorage.getItem('bp10')||'null')||D0,L=JSON.parse(localStorage.getItem('bl10')||'null')||[],cc='全部',aid='',atp='';
+function fP(id){return P.find(function(x){return x.id===id});}
 function tst(m){var t=document.getElementById('tst');t.textContent=m;t.style.display='block';setTimeout(function(){t.style.display='none'},1800);}
 function oM(id){document.getElementById(id).style.display='flex';}
 function cM(id){document.getElementById(id).style.display='none';}
 function go(v){document.getElementById('v1').style.display=v==='v1'?'block':'none';document.getElementById('v2').style.display=v==='v2'?'block':'none';document.getElementById('n1').className='nb'+(v==='v1'?' on':'');document.getElementById('n2').className='nb'+(v==='v2'?' on':'');}
 function ren(){
-  try{localStorage.setItem('bp8',JSON.stringify(P));localStorage.setItem('bl8',JSON.stringify(L));}catch(e){}
+  localStorage.setItem('bp10',JSON.stringify(P));localStorage.setItem('bl10',JSON.stringify(L));
   document.getElementById('s1').textContent=P.length;document.getElementById('s3').textContent=L.length;
   var due=0,cs=['全部'],q=document.getElementById('q').value.toLowerCase(),gh='',lh='';
-  for(var i=0;i<P.length;i++){
-    var x=P.slice(i,i+1).pop();if(cs.indexOf(x.cat)===-1)cs.push(x.cat);
+  P.forEach(function(x){
+    if(cs.indexOf(x.cat)===-1)cs.push(x.cat);
     var lf=Math.ceil((x.last+x.day*86400000-Date.now())/86400000);if(lf<=0)due++;
-    if((cc!=='全部'&&x.cat!==cc)||(x.name+(x.sl||'')+(x.nt||'')).toLowerCase().indexOf(q)===-1)continue;
+    if((cc!=='全部'&&x.cat!==cc)||(x.name+(x.sl||'')+(x.nt||'')).toLowerCase().indexOf(q)===-1)return;
     var b=lf<=0?'<b style="color:#B91C1C">需補水</b>':'<b style="color:#1B4332">'+lf+'天後澆</b>';
-<script>
-var list = JSON.parse(localStorage.getItem('plants_step1') || 'null') || [
-  { name: '二叉鹿角蕨', cat: '附生鹿角蕨', day: 5, img: 'https://unsplash.com', note: '水苔變輕變乾時整板泡水 15 分鐘，保持通風。' },
-  { name: '神聖乳香', cat: '橄欖科植物', day: 8, img: 'https://unsplash.com', note: '橄欖科芳香樹脂樹種，需疏水顆粒土與充足日照。' }
-];
-
-function draw() {
-  localStorage.setItem('plants_step1', JSON.stringify(list));
-  document.getElementById('s1').textContent = list.length;
-  var html = '';
-  for (var i = 0; i < list.length; i++) {
-    var p = list.slice(i, i + 1).pop();
-    html += '<div class="card">' +
-      '<div class="cimg"><img src="' + p.img + '"><span class="ctag">' + p.cat + '</span><div class="ctit"><h3>' + p.name + '</h3></div></div>' +
-      '<div class="cbd"><div style="font-size:11px;color:#888;margin-bottom:6px">每 ' + p.day + ' 天澆水</div><p style="font-size:12px">' + p.note + '</p></div>' +
-    '</div>';
-  }
-  document.getElementById('grid').innerHTML = html;
-}
-
-document.addEventListener('click', function(e) {
-  var btn = e.target.closest('button');
-  if (!btn) return;
-  var cmd = btn.getAttribute('data-cmd');
-
-  // 1. 按下「＋ 收錄植物」：打開新增視窗
-  if (cmd === 'add') {
-    document.getElementById('fn').value = '';
-    document.getElementById('fs').value = '';
-    document.getElementById('fnt').value = '';
-    document.getElementById('m-add').style.display = 'flex';
-  }
-  // 2. 按下「✕」：關閉視窗
-  if (cmd === 'close') {
-    document.getElementById('m-add').style.display = 'none';
-  }
-  // 3. 按下「儲存至圖鑑」：新增植物並重新畫出卡片
-  if (cmd === 'save') {
-    var name = document.getElementById('fn').value.trim();
-    if (!name) {
-      document.getElementById('fn').placeholder = '⚠️ 請先在這裡輸入植物名稱！';
-      return;
-    }
-    list.unshift({
-      name: name,
-      cat: document.getElementById('fc').value,
-      day: parseInt(document.getElementById('fd').value) || 5,
-      img: 'https://unsplash.com',
-      note: document.getElementById('fnt').value.trim() || '新收錄植物，請依介質乾濕給水。'
-    });
-    document.getElementById('m-add').style.display = 'none';
-    draw();
-  }
-});
-
-draw();
-</script>
-</body>
-</html>
+    gh+='<div class="card"><div class="cimg" onclick="oDet(\''+x.id+'\')"><img src="'+x.img+'"><span class="ctag">'+x.cat+'</span><div class="ctit"><h3>'+x.name+'</h3></div></div><div class="cbd"><div class="row" style="font-size:11px;margin-bottom:6px"><span>每'+x.day+'天</span>'+b+'</div><p style="font-size:12px;color:#4A4E4B">'+x.nt+'</p><div class="cac"><button class="ab" style="background:#EDF6F9;color:#006D77" onclick="doW(\''+x.id+'\')">💧 澆水</button><button class="ab" style="background:#FFF8EB;color:#B45309" onclick="oAct(\''+x.id+'\',\'f\')">🧪 施肥</button><button class="ab" style="background:#F4F2ED;color:#3A3F3B" onclick="oAct(\''+x.id+'\',\'n\')">📝 筆記</button></div></div></div>';
+  });
+  document.getElementById('s2').textContent=due;
+  document.getElementById('cats').innerHTML=cs.map(function(c){return '<button class="cb'+(cc===c?' on':'')+'" onclick="cc=\''+c+'\';ren()">'+c+'</button>';}).join('');
+  document.getElementById('grid').innerHTML=gh;
