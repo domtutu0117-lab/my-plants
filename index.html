@@ -84,3 +84,62 @@ function ren(){
     var lf=Math.ceil((x.last+x.day*86400000-Date.now())/86400000);if(lf<=0)due++;
     if((cc!=='全部'&&x.cat!==cc)||(x.name+(x.sl||'')+(x.nt||'')).toLowerCase().indexOf(q)===-1)continue;
     var b=lf<=0?'<b style="color:#B91C1C">需補水</b>':'<b style="color:#1B4332">'+lf+'天後澆</b>';
+<script>
+var list = JSON.parse(localStorage.getItem('plants_step1') || 'null') || [
+  { name: '二叉鹿角蕨', cat: '附生鹿角蕨', day: 5, img: 'https://unsplash.com', note: '水苔變輕變乾時整板泡水 15 分鐘，保持通風。' },
+  { name: '神聖乳香', cat: '橄欖科植物', day: 8, img: 'https://unsplash.com', note: '橄欖科芳香樹脂樹種，需疏水顆粒土與充足日照。' }
+];
+
+function draw() {
+  localStorage.setItem('plants_step1', JSON.stringify(list));
+  document.getElementById('s1').textContent = list.length;
+  var html = '';
+  for (var i = 0; i < list.length; i++) {
+    var p = list.slice(i, i + 1).pop();
+    html += '<div class="card">' +
+      '<div class="cimg"><img src="' + p.img + '"><span class="ctag">' + p.cat + '</span><div class="ctit"><h3>' + p.name + '</h3></div></div>' +
+      '<div class="cbd"><div style="font-size:11px;color:#888;margin-bottom:6px">每 ' + p.day + ' 天澆水</div><p style="font-size:12px">' + p.note + '</p></div>' +
+    '</div>';
+  }
+  document.getElementById('grid').innerHTML = html;
+}
+
+document.addEventListener('click', function(e) {
+  var btn = e.target.closest('button');
+  if (!btn) return;
+  var cmd = btn.getAttribute('data-cmd');
+
+  // 1. 按下「＋ 收錄植物」：打開新增視窗
+  if (cmd === 'add') {
+    document.getElementById('fn').value = '';
+    document.getElementById('fs').value = '';
+    document.getElementById('fnt').value = '';
+    document.getElementById('m-add').style.display = 'flex';
+  }
+  // 2. 按下「✕」：關閉視窗
+  if (cmd === 'close') {
+    document.getElementById('m-add').style.display = 'none';
+  }
+  // 3. 按下「儲存至圖鑑」：新增植物並重新畫出卡片
+  if (cmd === 'save') {
+    var name = document.getElementById('fn').value.trim();
+    if (!name) {
+      document.getElementById('fn').placeholder = '⚠️ 請先在這裡輸入植物名稱！';
+      return;
+    }
+    list.unshift({
+      name: name,
+      cat: document.getElementById('fc').value,
+      day: parseInt(document.getElementById('fd').value) || 5,
+      img: 'https://unsplash.com',
+      note: document.getElementById('fnt').value.trim() || '新收錄植物，請依介質乾濕給水。'
+    });
+    document.getElementById('m-add').style.display = 'none';
+    draw();
+  }
+});
+
+draw();
+</script>
+</body>
+</html>
