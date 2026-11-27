@@ -1,7 +1,6 @@
 {
   "name": "植誌 BOTANICA・跨領域植物圖鑑",
   "short_name": "植誌",
-  "description": "專屬跨領域植物圖鑑、深度百科與養護日誌",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
@@ -9,15 +8,21 @@
   "theme_color": "#1B4332",
   "icons": [
     {
-      "src": "https://dummyimage.com",
+      "src": "./1000012835.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "https://dummyimage.com",
+      "src": "./1000012835.png",
       "sizes": "512x512",
       "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
       "purpose": "any"
     }
   ]
